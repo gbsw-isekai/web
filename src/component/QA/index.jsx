@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
 import Answer from "./answer";
 import { getQuestionById, getQuestions } from "../../lib/api";
-import { useParams } from "react-router-dom/dist";
+import { useParams } from "react-router-dom";
+import Comments from "./Comment";
 
 function QA() {
   const [data, setData] = useState();
   const { id } = useParams();
-
+  
   useEffect(() => {
     (async () => {
       const getData = await getQuestionById(id);
       console.log(getData);
       setData(getData.data);
     })();
-  }, []);
+  }, [id]);
 
   if (!data) {
     return <h1>Loading</h1>;
@@ -55,6 +56,9 @@ function QA() {
           <Answer nickname={e.writer.id} content={e.content} />
         ))}
       </section>
+
+      <Comments qaId={id} />
+
       <footer className="main-footer"></footer>
     </div>
   );

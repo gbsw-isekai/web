@@ -6,25 +6,48 @@ import QuestionItem from "./item";
 
 function Questions() {
   const [questions, setQuestions] = useState([]); 
-  const questionList = questions.map(({
-    id,
-    title,
-    content
-  }) => (
-    <QuestionItem key={id} id={id} title={title} content={content} />
-  ))
+  const [load, setLoad] = useState(true);
+  const [error, setError] = useState(false);
+
+  // const questionList = questions.map(({
+  //   id,
+  //   title,
+  //   content
+  // }) => (
+  //   <QuestionItem key={id} id={id} title={title} content={content} />
+  // ))
 
   useEffect(() => {
     async function wait() {
-      const questions = await getQuestions()
-      setQuestions(questions)
+      try {
+        setLoad(true)
+        const questions = await getQuestions()
+        setQuestions(questions)
+      }  catch(error) {
+        setError(true);
+      } finally {
+        setLoad(false);
+      }
     }
     wait();
   }, []);
+  if (load) {
+    return '조회중'
+  }
+
+  if (error) {
+    return '에러 발생'
+  } 
 
   return (
     <div>
-      {questionList}
+      {questions.map(({
+        id,
+        title,
+        content
+      }) => (
+        <QuestionItem key={id} id={id} title={title} content={content} />
+      ))}
     </div> 
   )
 }

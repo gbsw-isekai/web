@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function QuestionItem({
   id,
   title,
@@ -9,7 +11,7 @@ export default function QuestionItem({
         {id}
       </div>  
       <div>
-       <a href={'questions/'+ id}>{title}</a>
+       <Link to={`/questions/${id}`}>{title}</Link>
       </div>
       <div>
         {content}

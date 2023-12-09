@@ -1,10 +1,13 @@
+import { useParams } from 'react-router-dom';
 import Answer from './answer';
 
 function QA() {
+  const {id} = useParams();
+
   return (
     <div class="flex flex-col">
       <header class="main-header">
-        <h2 class="text-3xl font-medium">header</h2>
+        <h2 class="text-3xl font-medium">header {id}</h2>
       </header>
       <section class="max-w-[1024px] self-center">
           <div class="flex flex-col border-t border-b">

@@ -1,61 +1,61 @@
-import Answer from './answer';
+import { useEffect, useState } from "react";
+import Answer from "./answer";
+import { getQuestionById, getQuestions } from "../../lib/api";
+import { useParams } from "react-router-dom/dist";
 
 function QA() {
-  return (
-    <div class="flex flex-col">
-      <header class="main-header">
-        <h2 class="text-3xl font-medium">header</h2>
-      </header>
-      <section class="max-w-[1024px] self-center">
-          <div class="flex flex-col border-t border-b">
-            <div class="text-xl mb-2">
-              Q 경북소프트웨어고등학교 가기 어렵나요?
-            </div>
-            <div class="mb-5">
-              경북소프트웨어고등학교 가고싶은 충남에 사는 중2인데  성적이 어느정도여야 경북소프트웨어고등학교에 갈수있을까요
-            </div>
-            <div class="mb-6">
-              <a href="/" class="text-blue-800">고등학교진학</a>
-            </div>
-            <div class="flex justify-between">
-              <div class="flex gap-2">
-                <div class="question-profile">
-                  profile-icon
-                </div>
-                <div class="question-name">
-                  kbs2****
-                </div>
-                <div class="question-date">
-                  · 2006.01.07
-                </div>
-                <div class="question-views">
-                  · 조회수 1,216
-                </div>
-              </div>
+  const [data, setData] = useState();
+  const { id } = useParams();
 
-              <div class="flex gap-2">
-                <div class="reply_icon">
-                  reply_icon
-                </div>
-                <div class="question_report">
-                  report_icon
-                </div>
-              </div>
+  useEffect(() => {
+    (async () => {
+      const getData = await getQuestionById(id);
+      console.log(getData);
+      setData(getData.data);
+    })();
+  }, []);
+
+  if (!data) {
+    return <h1>Loading</h1>;
+  }
+
+  return (
+    <div className="flex flex-col">
+      <header className="main-header">
+        <h2 className="text-3xl font-medium">header</h2>
+      </header>
+      <section className="max-w-[1024px] self-center">
+        <div className="flex flex-col border-t border-b">
+          <div className="text-xl mb-2">Q {data.title}</div>
+          <div className="mb-5">{data.content}</div>
+          <div className="mb-6">
+            <a href="/" className="text-blue-800">
+              고등학교진학
+            </a>
+          </div>
+          <div className="flex justify-between">
+            <div className="flex gap-2">
+              <div className="question-profile">profile-icon</div>
+              <div className="question-name">{data.writer.id}</div>
+              <div className="question-date">· {data.createdAt}</div>
+              <div className="question-views">· 조회수 1,216</div>
+            </div>
+
+            <div className="flex gap-2">
+              <div className="reply_icon">reply_icon</div>
+              <div className="question_report">report_icon</div>
             </div>
           </div>
-          <div class="answer-title">
-              <div class="mb-3">
-                A n개
-             </div>
-          </div>
-          <Answer nickname="김대용" content="ㅁㄴㅇㄻㄴㅇㄻㄴㅇㄹ"/>
-          <Answer nickname="강정우" content="asdfaasdfasdf"/>
-          <Answer/>
-          <Answer/>
+        </div>
+        <div className="answer-title">
+          <div className="mb-3">A {data.answers.length}개</div>
+        </div>
+
+        {data.answers.map((e) => (
+          <Answer nickname={e.writer.id} content={e.content} />
+        ))}
       </section>
-      <footer class="main-footer">
-        
-      </footer>
+      <footer className="main-footer"></footer>
     </div>
   );
 }

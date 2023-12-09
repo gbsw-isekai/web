@@ -52,7 +52,7 @@ function QA() {
         </div>
 
         {data.answers.map((e) => (
-          <Answer nickname={e.writer.id} content={e.content} />
+          <Answer key={e.id} nickname={e.writer.id} content={e.content} />
         ))}
       </section>
       <footer className="main-footer"></footer>

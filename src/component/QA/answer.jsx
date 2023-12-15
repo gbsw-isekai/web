@@ -1,6 +1,8 @@
-function Answer({ nickname, content }) {
+import { Link } from "react-router-dom/dist";
+
+function Answer({ nickname, content, isOwner, editUrl }) {
   return (
-    <div className="answer-container">
+    <div className="border-y-2 border-gray-500">
       <div className="answer-profile_info">
         <div className="flex justify-between">
           <div className="answer-info_right">
@@ -13,7 +15,8 @@ function Answer({ nickname, content }) {
           </div>
           <div className="answer-info_left">answer-profile</div>
         </div>
-        <div className="answer-content">{content}</div>
+        <div className="answer-content whitespace-pre-line">{content}</div>
+        {isOwner ? <Link to={editUrl}>수정하기</Link> : null}
       </div>
     </div>
   );

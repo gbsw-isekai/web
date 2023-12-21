@@ -11,8 +11,20 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/questions/:id" element={<QA />} />
-        <Route path="/qa/editor" element={<BoardEditor />} />
+        <Route path="/question/editor" element={<BoardEditor type="1" />} />
+        <Route path="/question/:questionId" element={<QA />} />
+        <Route
+          path="/question/:questionId/editor"
+          element={<BoardEditor type="2" />}
+        />
+        <Route
+          path="/question/:questionId/answers/editor"
+          element={<BoardEditor type="3" />}
+        />
+        <Route
+          path="/question/:questionId/answers/:answerId/editor"
+          element={<BoardEditor type="4" />}
+        />
         <Route path="/questions" element={<Questions />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/user/join" element={<SignUp />} />

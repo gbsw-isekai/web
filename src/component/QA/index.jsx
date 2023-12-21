@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import Answer from "./answer";
 
-import {
-  createView,
-  deleteBoard,
-  getBoardById,
-} from "../../lib/api";
+import { createView, deleteBoard, getBoardById } from "../../lib/api";
 import { Link, useNavigate, useParams } from "react-router-dom/dist";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -24,30 +20,30 @@ function QA() {
     (async () => {
       const response = await createView(questionId, token);
 
-      if (response.status != 200) {
+      if (response.status !== 200) {
         console.log("에러");
       }
     })();
-  }, []);
+  }, [questionId, token]);
 
   useEffect(() => {
     (async () => {
       const getData = await getBoardById(questionId);
 
       if (!!token) {
-        if (userId == getData.data.writer.id) getData.data["isOwner"] = true;
+        if (userId === getData.data.writer.id) getData.data["isOwner"] = true;
         else getData.data["isOwner"] = false;
       }
 
       setData(getData.data);
     })();
-  }, []);
+  }, [questionId, token, userId]);
 
   const onDeleteHandler = () => {
     (async () => {
       const response = await deleteBoard(questionId, token);
 
-      if (response.status != 200) {
+      if (response.status !== 200) {
         console.log("에러");
       }
 
@@ -110,7 +106,7 @@ function QA() {
             key={e.id}
             nickname={e.writer.id}
             content={e.content}
-            isOwner={e.writer.id == userId}
+            isOwner={e.writer.id === userId}
             editUrl={`/question/${questionId}/answers/${e.id}/editor`}
           />
         ))}

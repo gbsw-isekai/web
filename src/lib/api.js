@@ -17,7 +17,7 @@ export function getQuestions() {
     method: "GET",
     url: `${process.env.REACT_APP_SERVER}/boards`,
   });
-
+  
   return data;
 }
 

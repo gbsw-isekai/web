@@ -4,6 +4,8 @@ import QA from "./component/QA";
 import "./component/blog";
 import Questions from "./component/Question";
 import BoardEditor from "./component/BoardEditor";
+import Login from "./component/Login";
+import SignUp from "./component/SignUp";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
           element={<BoardEditor type="4" />}
         />
         <Route path="/questions" element={<Questions />} />
+        <Route path="/auth/login" element={<Login />} />
+        <Route path="/user/join" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   );

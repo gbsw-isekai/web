@@ -15,7 +15,7 @@ function App() {
         <Route path="/qa/editor" element={<BoardEditor />} />
         <Route path="/questions" element={<Questions />} />
         <Route path="/auth/login" element={<Login />} />
-        <Route path="/user/join" element={<SignUp />} />
+        <Route path="/users/join" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   );

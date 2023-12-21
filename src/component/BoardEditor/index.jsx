@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createQuestion } from "../../lib/api";
 import useToken from "../../hooks/useToken";
-import { useNavigate, useRoutes } from "react-router-dom/dist";
+import { useNavigate } from "react-router-dom/dist";
 
 const BoardEditor = () => {
   const [title, setTitle] = useState("");
@@ -17,7 +17,7 @@ const BoardEditor = () => {
 
     const request = await createQuestion(data, token);
 
-    if (request.status != 200) {
+    if (request.status !== 200) {
       return console.log("에러");
     }
 

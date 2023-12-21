@@ -1,5 +1,4 @@
 import axios from "axios";
-import useToken from "../hooks/useToken";
 
 export function getQuestions() {
   const data = axios({

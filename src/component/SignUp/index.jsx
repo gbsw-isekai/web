@@ -4,10 +4,11 @@ import Cookies from "js-cookie";
 
 export default function SignUp() {
   const [userInfo, setUserInfo] = useState({
-      "id": "",
-      "name": "",
-      "pw": "",
-      "number": ""
+      id: "",
+      name: "",
+      pw: "",
+      number: "",
+      profile: ""
   })
 
   const onChange = (e) => {

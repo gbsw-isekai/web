@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Answer from "./answer";
-import { getQuestionById, getQuestions } from "../../lib/api";
+import { getQuestionById } from "../../lib/api";
 import { useParams } from "react-router-dom";
 import Comments from "./Comment";
 

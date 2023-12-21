@@ -1,16 +1,17 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import QA from "./component/QA";
-import "./component/blog";
-import Questions from "./component/Question";
-import BoardEditor from "./component/BoardEditor";
-import Login from "./component/Login";
-import SignUp from "./component/SignUp";
+import QA from "./pages/QA";
+import Questions from "./pages/Question";
+import BoardEditor from "./pages/BoardEditor";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import Main from "./pages/Main";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Main/>}/>
         <Route path="/question/editor" element={<BoardEditor type="1" />} />
         <Route path="/question/:questionId" element={<QA />} />
         <Route

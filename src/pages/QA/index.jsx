@@ -42,28 +42,34 @@ function QA() {
     })();
   }, [questionId, token]);
 
+  const getData = async () => {
+    const getData = await getBoardById(questionId);
+
+    if (!!token) {
+      if (userId === getData.data.writer.id) getData.data["isOwner"] = true;
+      else getData.data["isOwner"] = false;
+    }
+
+    setData(getData.data);
+  };
+
   useEffect(() => {
-    (async () => {
-      const getData = await getBoardById(questionId);
-
-      if (!!token) {
-        if (userId === getData.data.writer.id) getData.data["isOwner"] = true;
-        else getData.data["isOwner"] = false;
-      }
-
-      setData(getData.data);
-    })();
+    getData();
   }, [questionId, token, userId]);
 
-  const onDeleteHandler = () => {
+  const onDeleteHandler = (questionId_) => {
     (async () => {
-      const response = await deleteBoard(questionId, token);
+      const response = await deleteBoard(questionId_, token);
 
       if (response.status !== 200) {
         console.log("에러");
       }
 
-      navigator("/questions");
+      if (questionId_ === questionId) {
+        return navigator("/questions");
+      }
+
+      return getData();
     })();
   };
 
@@ -95,7 +101,13 @@ function QA() {
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem>
-                        <div onClick={onDeleteHandler}>삭제하기</div>
+                        <div
+                          onClick={() => {
+                            onDeleteHandler(questionId);
+                          }}
+                        >
+                          삭제하기
+                        </div>
                       </DropdownMenuItem>
                     </>
                   ) : (
@@ -149,7 +161,10 @@ function QA() {
               content={e.content}
               isOwner={e.writer.id === userId}
               editUrl={`/question/${questionId}/answers/${e.id}/editor`}
-              className="max-w-[1024px] mx-auto"
+              className="max-w-[1024px] mx-auto my-8"
+              onDeleteHandler={() => {
+                onDeleteHandler(e.id);
+              }}
             />
           ))}
         </div>

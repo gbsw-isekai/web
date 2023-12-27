@@ -6,12 +6,13 @@ import BoardEditor from "./pages/BoardEditor";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Main from "./pages/Main";
+import "@radix-ui/themes/styles.css";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Main/>}/>
+        <Route path="/" element={<Main />} />
         <Route path="/question/editor" element={<BoardEditor type="1" />} />
         <Route path="/question/:questionId" element={<QA />} />
         <Route

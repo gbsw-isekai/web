@@ -1,9 +1,9 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { getCompanys } from "src/lib/companyList";
+import { getCompanys } from "src/lib/company";
 import Header from "src/components/common/Header";
-import CompanyDetail from "./detail";
 import CompanyItem from "src/components/Company/item";
+import { Link } from "react-router-dom";
 
 export default function CompanyList() {
   const [companys, setCompanys] = useState([]);
@@ -38,7 +38,7 @@ export default function CompanyList() {
       <div>
         <Header/>
       </div>
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         {companys.map(({
           id,
           name,
@@ -47,7 +47,7 @@ export default function CompanyList() {
           averageSalary,
           viewsCount
         }) => (
-          <div><CompanyItem id={id} name={name} stack={stack} grade={grade} averageSalary={averageSalary} viewsCount={viewsCount}/></div>
+          <Link to={`/companies/${id}`}><CompanyItem id={id} name={name} stack={stack} grade={grade} genre={"기업종류예시"} area={"회사"} averageSalary={averageSalary} viewsCount={viewsCount}/></Link>
         ))}
       </div>
     </div>

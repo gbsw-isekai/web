@@ -6,6 +6,8 @@ import BoardEditor from "./pages/BoardEditor";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Main from "./pages/Main";
+import CompanyList from "./pages/Company/list";
+import CompanyDetail from "./pages/Company/detail";
 import "@radix-ui/themes/styles.css";
 
 function App() {
@@ -30,6 +32,9 @@ function App() {
         <Route path="/questions" element={<Questions />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/users/join" element={<SignUp />} />
+
+        <Route path="/companies" element={<CompanyList/>}/>
+        <Route path="/companies/:companiesId" element={<CompanyDetail/>}></Route>
       </Routes>
     </BrowserRouter>
   );

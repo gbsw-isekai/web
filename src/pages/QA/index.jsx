@@ -118,10 +118,12 @@ function QA() {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
+            <div className="w-32 h-whitespace-nowrap break-all">
             <div
-              className="mb-5 ml-[51px]"
+              className="mb-5 ml-[51px] h-whitespace-nowrap break-all"
               dangerouslySetInnerHTML={{ __html: data.content }}
             />
+            </div>
             <div className="my-6">
               <a href="/" className="text-blue-800">
                 고등학교진학

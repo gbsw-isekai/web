@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getQuestions } from "../../lib/question";
 import QuestionItem from "./item";
+import Header from "src/components/common/Header";
 
 function Questions() {
   const [questions, setQuestions] = useState([]);
@@ -39,8 +40,9 @@ function Questions() {
 
   return (
     <div>
-      {questions.map(({ id, title, content }) => (
-        <QuestionItem key={id} id={id} title={title} content={content} />
+      <Header />
+      {questions.map(({ id, title, content, writer, viewCount}) => (
+        <QuestionItem key={id} id={id} name={writer.name} viewCount={viewCount} title={title} content={content} />
       ))}
     </div>
   );

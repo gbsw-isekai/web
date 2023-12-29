@@ -3,18 +3,19 @@ import { Link } from "react-router-dom";
 export default function QuestionItem({
   id,
   title,
-  content
+  name,
+  viewCount
 }) {
   return (
-    <div>
+    <div className="p-4 max-w-5xl h-32 mx-auto mt-7 flex gap-3 items-center border border-solid rounded-xl">
       <div>
-        {id}
+        {name}
       </div>  
       <div>
-       <Link to={`/questions/${id}`}>{title}</Link>
+        {viewCount}회
       </div>
-      <div>
-        {content}
+      <div className="font-normal">
+        <Link to={`/question/${id}`}>{title}</Link>
       </div>
     </div>
   )

@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Main from "./pages/Main";
 import CompanyList from "./pages/Company/list";
+import CompanyDetail from "./pages/Company/detail";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/users/join" element={<SignUp />} />
 
         <Route path="/companies" element={<CompanyList/>}/>
+        <Route path="/companies/:companiesId" element={<CompanyDetail/>}></Route>
       </Routes>
     </BrowserRouter>
   );

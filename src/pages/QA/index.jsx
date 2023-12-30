@@ -1,28 +1,19 @@
 import { useEffect, useState } from "react";
 import Answer from "./answer";
 
-import { createView, deleteBoard, getBoardById } from "../../lib/api";
 import { Link, useNavigate, useParams } from "react-router-dom/dist";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import useToken from "../../hooks/useToken";
 import Header from "src/components/common/Header";
-
-import {
-  MessageCircle,
-  MessageCircleMore,
-  MessageCircleQuestion,
-  MoreVertical,
-} from "lucide-react";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../../components/ui/dropdown-menu";
+import { Separator } from "src/components/ui/separator";
+import { Button } from "src/components/ui/button";
 
 import "dayjs/locale/ko";
+import Comments from "./Comment";
+import { createView, deleteBoard, getBoardById } from "src/lib/question";
+import { Textarea } from "src/components/ui/textarea";
+import QADropDown from "src/components/QA/qa-dropdown";
 dayjs.extend(relativeTime);
 dayjs.locale("ko");
 
@@ -80,90 +71,70 @@ function QA() {
   return (
     <div className="flex flex-col">
       <Header />
-      <div className="w-full min-h-[calc(100vh-56.67px)] bg-gray-200">
-        <div className="flex flex-col w-full min-h-full bg-white py-8">
-          <div className="flex flex-col w-full max-w-[1024px] self-center">
-            <div className="mb-2 flex items-center justify-between">
-              <div className="flex items-center">
-                <MessageCircleQuestion className="w-10 h-10" />
+      <div className="w-full min-h-[calc(100vh-56.67px)] flex flex-col gap-5 py-8">
+        <div className="flex flex-col w-full min-h-full bg-white">
+          <div className="flex flex-col w-full max-w-[1024px] self-center border rounded-md px-4 py-4 gap-5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-end">
+                <span className="text-2xl font-bold">Q.</span>
                 <div className="ml-2 text-2xl">{data.title}</div>
               </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <MoreVertical />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  {data.isOwner ? (
-                    <>
-                      <DropdownMenuItem>
-                        <Link to={`/question/${questionId}/editor`}>
-                          수정하기
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <div
-                          onClick={() => {
-                            onDeleteHandler(questionId);
-                          }}
-                        >
-                          삭제하기
-                        </div>
-                      </DropdownMenuItem>
-                    </>
-                  ) : (
-                    <DropdownMenuItem>
-                      <Link to={``}>신고하기</Link>
-                    </DropdownMenuItem>
-                  )}
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <QADropDown
+                isOwner={data.isOwner}
+                onDeleteHandler={() => onDeleteHandler(questionId)}
+                editUrl={`/question/${questionId}/editor`}
+              />
             </div>
-            <div className="w-32 h-whitespace-nowrap break-all">
             <div
-              className="mb-5 ml-[51px] h-whitespace-nowrap break-all"
+              className="text-pretty"
               dangerouslySetInnerHTML={{ __html: data.content }}
             />
-            </div>
-            <div className="my-6">
+            <div className="">
               <a href="/" className="text-blue-800">
                 고등학교진학
               </a>
             </div>
-            <div className="flex justify-between">
-              <div className="flex gap-2">
-                <div className="w-7 h-7 rounded-full bg-gray-400"></div>
-                <div className="question-name">{data.writer.id}</div>
+            <div className="flex justify-between text-sm text-gray-700">
+              <div className="flex gap-2 items-center">
+                <div className="w-7 h-7 rounded-full overflow-hidden">
+                  <img src={data.writer.profile} alt="프로필사진" />
+                </div>
+                <div className="question-name">{data.writer.name}</div>
                 <div className="question-date">
                   · {dayjs(data.createdAt).fromNow()}
                 </div>
                 <div className="question-views">· 조회수 {data.viewCount}</div>
               </div>
-              <div className="flex gap-2">
-                <div className="">
-                  <MessageCircle />
-                </div>
-              </div>
+            </div>
+            <div>
+              <Separator />
+            </div>
+            <div>
+              <Comments qaId={questionId} />
             </div>
           </div>
         </div>
-        <div className="w-full max-w-[1024px] mx-auto my-4 text-xl flex justify-between">
-          <div>A {data.answers.length}개</div>
+        <div className="w-full max-w-[1024px] mx-auto text-xl flex justify-between">
           <Link
+            className="w-full"
             to={`/question/${questionId}/answers/editor`}
-            className="px-3 py-1 bg-green-500 text-white text-base"
           >
-            답변하기
+            <Button className="w-full">답변하기</Button>
           </Link>
         </div>
-        <div>
+        <div className="w-full max-w-[1024px] mx-auto text-xl flex justify-between">
+          <div>총 {data.answers.length}개의 답변이 있어요.</div>
+        </div>
+        <div className="flex flex-col gap-5 justify-stretch">
           {data.answers.map((e) => (
             <Answer
               key={e.id}
-              nickname={e.writer.id}
+              nickname={e.writer.name}
+              profile={e.writer.profile}
               content={e.content}
               isOwner={e.writer.id === userId}
               editUrl={`/question/${questionId}/answers/${e.id}/editor`}
-              className="max-w-[1024px] mx-auto my-8"
+              className="w-full max-w-[1024px] mx-auto border rounded-md px-4 py-4"
               onDeleteHandler={() => {
                 onDeleteHandler(e.id);
               }}

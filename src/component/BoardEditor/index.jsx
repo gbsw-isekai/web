@@ -9,7 +9,7 @@ const BoardEditor = ({ type }) => {
   useEffect(() => {
     if (!token || !userId) {
       alert("로그인 ㄱㄱ");
-      navigate("/login");
+      navigate("/auth/login");
     }
   }, [token, userId]);
 
@@ -37,7 +37,6 @@ const BoardEditor = ({ type }) => {
           navigate(`/question/${questionId}`);
         }
 
-        console.log(data);
         if (boardType == "question") setTitle(data.data.title);
         setContent(data.data.content);
 

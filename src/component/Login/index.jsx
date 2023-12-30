@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { login } from "../../lib/login";
 import Cookies from "js-cookie";
+import { Input } from "../../components/ui/input"
 
 export default function Login() {
 
@@ -27,12 +28,11 @@ export default function Login() {
     <div>
       <form onSubmit={sendInfo}>
         <div>
-          <input type="text" placeholder="로그인" style={{
-            border: "1px solid black"
-          }}
+          <Input type="text" placeholder="로그인"
             name="id"
             value={info.id}
             onChange={onChange} />
+            <Input type="email" placeholder="Email" />
         </div>
         <div>
           <input type="password" placeholder="비밀번호" style={{

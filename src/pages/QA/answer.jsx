@@ -1,6 +1,9 @@
 import QADropDown from "src/components/QA/qa-dropdown";
+import Comments from "./Comment";
+import { Separator } from "src/components/ui/separator";
 
 function Answer({
+  id,
   nickname,
   profile,
   content,
@@ -37,6 +40,8 @@ function Answer({
         </div>
       </div>
       <div className="mt-4" dangerouslySetInnerHTML={{ __html: content }}></div>
+      <Separator />
+      <Comments qaId={id} />
     </div>
   );
 }

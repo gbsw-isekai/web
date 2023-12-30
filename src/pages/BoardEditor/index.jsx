@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createBoard, getBoardById, updateBoard } from "../../lib/api";
+import { createBoard, getBoardById, updateBoard } from "../../lib/question";
 import useToken from "../../hooks/useToken";
 import { useNavigate, useParams } from "react-router-dom/dist";
 import Header from "src/components/common/Header";

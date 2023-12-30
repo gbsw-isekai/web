@@ -129,12 +129,13 @@ function QA() {
           {data.answers.map((e) => (
             <Answer
               key={e.id}
+              id={e.id}
               nickname={e.writer.name}
               profile={e.writer.profile}
               content={e.content}
               isOwner={e.writer.id === userId}
               editUrl={`/question/${questionId}/answers/${e.id}/editor`}
-              className="w-full max-w-[1024px] mx-auto border rounded-md px-4 py-4"
+              className="w-full max-w-[1024px] mx-auto border rounded-md px-4 py-4 flex flex-col gap-4"
               onDeleteHandler={() => {
                 onDeleteHandler(e.id);
               }}

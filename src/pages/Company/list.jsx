@@ -13,11 +13,11 @@ export default function CompanyList() {
   useEffect(() => {
     async function wait() {
       try {
-        setLoad(true)
-        const companys = await getCompanys()
-        setCompanys(companys)
+        setLoad(true);
+        const companys = await getCompanys();
+        setCompanys(companys);
       } catch {
-        setError(true)
+        setError(true);
       } finally {
         setLoad(false);
       }
@@ -42,12 +42,27 @@ export default function CompanyList() {
         {companys.map(({
           id,
           name,
-          stack,
-          grade,
-          averageSalary,
-          viewsCount
+          postalCode,
+          address,
+          industryCode,
+          industry,
+          registrationNumber,
+          companyNpsEmployeeData,
+          viewCount
         }) => (
-          <Link to={`/companies/${id}`}><CompanyItem id={id} name={name} stack={stack} grade={grade} genre={"기업종류예시"} area={"회사"} averageSalary={averageSalary} viewsCount={viewsCount}/></Link>
+          <Link to={`/companies/${id}`}>
+            <CompanyItem 
+              id={id} 
+              name={name} 
+              postalCode={postalCode} 
+              address={address} 
+              industryCode={industryCode} 
+              industry={industry} 
+              registrationNumber={registrationNumber} 
+              companyNpsEmployeeData={companyNpsEmployeeData}
+              viewCount={viewCount}
+            />
+          </Link>
         ))}
       </div>
     </div>

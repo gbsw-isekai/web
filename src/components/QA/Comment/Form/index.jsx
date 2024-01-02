@@ -3,6 +3,7 @@ import { createComment, updateComment } from "../../../../lib/question";
 import useToken from "src/hooks/useToken";
 import { Textarea } from "src/components/ui/textarea";
 import { Button } from "src/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 export default function CommentForm({
   qaId,
@@ -22,10 +23,12 @@ export default function CommentForm({
     }));
   };
 
+  const navigate = useNavigate();
   const [isNew, setIsNew] = useState(true);
   const [load, setLoad] = useState(false);
   const [error, setError] = useState(false);
   const [isConentLoad, setIsConentLoad] = useState(false);
+  const [formPlaceholder, setFormPlaceholer] = useState("로그인이 필요합니다.");
 
   useEffect(() => {
     if (commentId) {
@@ -34,12 +37,21 @@ export default function CommentForm({
       setIsNew(false);
       setIsConentLoad(true);
     }
+
+    if (token) {
+      setFormPlaceholer("댓글을 입력하세요.");
+    }
   }, [qaId, commentId]);
 
   async function sendCommentDto(e) {
     try {
-      setLoad(true);
       e.preventDefault();
+
+      if (!token) {
+        navigate("/auth/login");
+      }
+
+      setLoad(true);
 
       isNew
         ? await createComment(qaId, commentDto, token)
@@ -76,7 +88,7 @@ export default function CommentForm({
         className="w-full flex flex-col items-start gap-3"
       >
         <Textarea
-          placeholder="댓글을 입력하세요."
+          placeholder={formPlaceholder}
           onChange={onChange}
           defaultValue={commentDto.content}
         />

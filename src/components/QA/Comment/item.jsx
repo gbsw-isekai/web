@@ -2,6 +2,11 @@ import { useState } from "react";
 import QADropDown from "src/components/QA/qa-dropdown";
 import CommentForm from "./Form";
 import { deleteComment } from "src/lib/question";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import "dayjs/locale/ko";
+dayjs.extend(relativeTime);
+dayjs.locale("ko");
 
 export default function CommentItem({
   id,
@@ -12,6 +17,7 @@ export default function CommentItem({
   qaId,
   token,
   onCreate,
+  createdAt,
 }) {
   const [isEdit, setIsEdit] = useState(false);
 
@@ -33,6 +39,7 @@ export default function CommentItem({
             <img src={profile} alt="프로필사진" className="w-full h-full" />
           </div>
           <div>{nickname}</div>
+          <div className="text-gray-500">{dayjs(createdAt).fromNow()}</div>
         </div>
         <QADropDown
           isOwner={isOwner}

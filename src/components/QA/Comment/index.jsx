@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import CommentItem from "./item";
 import { getComments } from "../../../lib/question";
 import CommentForm from "./Form";
-import { Separator } from "src/components/ui/separator";
 import useToken from "src/hooks/useToken";
 
 export default function Comments({ qaId }) {
@@ -47,7 +46,7 @@ export default function Comments({ qaId }) {
     <div className="w-full flex flex-col items-start gap-3">
       <CommentForm qaId={qaId} onCreate={refreshComments} token={token} />
       <div className="w-full flex flex-col items-start gap-4">
-        {comments.map(({ id, writer, content }, i) => (
+        {comments.map(({ id, writer, content, createdAt }, i) => (
           <CommentItem
             key={id}
             id={id}
@@ -58,6 +57,7 @@ export default function Comments({ qaId }) {
             token={token}
             isOwner={writer.id === userId}
             onCreate={refreshComments}
+            createdAt={createdAt}
           />
         ))}
       </div>

@@ -11,6 +11,9 @@ import {
 
 import { cn } from "src/lib/utils";
 import { Terminal } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "src/components/ui/button";
+import { Input } from "src/components/ui/input";
 
 const components = [
   {
@@ -52,96 +55,46 @@ const components = [
 
 export default function Header() {
   return (
-    <div className="pl-4 flex items-center border-b py-2">
-      <div className="flex items-center">
-        <Terminal className="w-6 h-6" />
-        <div className="ml-2">경소고 정복자</div>
+    <div className="border-b py-2">
+      <div className="px-4 flex items-center max-w-6xl mx-auto">
+        <div className="flex items-center">
+          <Terminal className="w-6 h-6" />
+          <div className="ml-2">
+            <Link to="/">
+              GBSWJOB
+            </Link>
+          </div>
+        </div>
+        {/* <div className="ml-5">
+          <div className="search-bar">
+            <Input type="text" placeholder="검색" className="pl-1 border border-solid rounded-sm"/>
+          </div>
+        </div> */}
+        <NavigationMenu className="ml-6">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <Link to="/questions">
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Q&A
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link to="/companies">
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  기업정보탐색
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+        <div className="flex-1"></div>
+        <Link to="/auth/login" className="self-end">
+          <Button className="w-24">
+            로그인
+          </Button>
+        </Link>
       </div>
-      <NavigationMenu className="ml-6">
-        <NavigationMenuList>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                <li className="row-span-3">
-                  <NavigationMenuLink asChild>
-                    <a
-                      className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                      href="/"
-                    >
-                      {/* <Icons.logo className="h-6 w-6" /> */}
-                      <div className="mb-2 mt-4 text-lg font-medium">
-                        shadcn/ui
-                      </div>
-                      <p className="text-sm leading-tight text-muted-foreground">
-                        Beautifully designed components built with Radix UI and
-                        Tailwind CSS.
-                      </p>
-                    </a>
-                  </NavigationMenuLink>
-                </li>
-                <ListItem href="/docs" title="Introduction">
-                  Re-usable components built using Radix UI and Tailwind CSS.
-                </ListItem>
-                <ListItem href="/docs/installation" title="Installation">
-                  How to install dependencies and structure your app.
-                </ListItem>
-                <ListItem href="/docs/primitives/typography" title="Typography">
-                  Styles for headings, paragraphs, lists...etc
-                </ListItem>
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>Components</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                {components.map((component) => (
-                  <ListItem
-                    key={component.title}
-                    title={component.title}
-                    href={component.href}
-                  >
-                    {component.description}
-                  </ListItem>
-                ))}
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <a href="/docs">
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Documentation
-              </NavigationMenuLink>
-            </a>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
     </div>
   );
 }
-
-const ListItem = React.forwardRef(
-  ({ className, title, children, ...props }, ref) => {
-    return (
-      <li>
-        <NavigationMenuLink asChild>
-          <a
-            ref={ref}
-            className={cn(
-              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-              className
-            )}
-            {...props}
-          >
-            <div className="text-sm font-medium leading-none">{title}</div>
-            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-              {children}
-            </p>
-          </a>
-        </NavigationMenuLink>
-      </li>
-    );
-  }
-);
-ListItem.displayName = "ListItem";

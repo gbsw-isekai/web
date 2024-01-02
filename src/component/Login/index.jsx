@@ -2,6 +2,7 @@ import { useState } from "react"
 import { login } from "../../lib/login";
 import Cookies from "js-cookie";
 import { Input } from "../../components/ui/input"
+import { Button } from "@radix-ui/themes";
 
 export default function Login() {
 
@@ -20,8 +21,12 @@ export default function Login() {
 
   async function sendInfo(e) {
     e.preventDefault();
-    const { data } = await login(info);
-    Cookies.set('access_token', data);
+    try {
+      const { data } = await login(info);
+      Cookies.set('access_token', data);
+    } catch(error) {
+      alert ("로그인 실패:", error);
+    }
   }
 
   return (
@@ -32,10 +37,9 @@ export default function Login() {
             name="id"
             value={info.id}
             onChange={onChange} />
-            <Input type="email" placeholder="Email" />
         </div>
-        <div>
-          <input type="password" placeholder="비밀번호" style={{
+        <div> 
+          <Input type="password" placeholder="비밀번호" style={{
             border: "1px solid black"
           }}
             name="pw"
@@ -43,11 +47,11 @@ export default function Login() {
             onChange={onChange} />
         </div>
         <div>
-          <button style={{
+          <Button style={{
             border: "1px solid black"
           }}>
             로그인하기
-          </button>
+          </Button>
         </div>
       </form>
     </div>

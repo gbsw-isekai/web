@@ -16,6 +16,14 @@ export default function Main() {
     { name: 'afterEmployment', label: '취업 후' },
   ];
 
+  const toggleContents = {
+    beforeAdmission: '내용 1',
+    afterAdmission: '내용 2',
+    study: '내용 3',
+    jobSearch: '내용 4',
+    afterEmployment: '내용 5',
+  };
+
   return (
     <div>
       <Header />
@@ -38,6 +46,9 @@ export default function Main() {
             </button>
           ))}
         </div>
+      </div>
+      <div className="mt-8 text-center">
+        <p>{toggleContents[activeToggle]}</p>
       </div>
     </div>
   );

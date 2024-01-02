@@ -4,14 +4,25 @@ import Cookies from "js-cookie";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
+import { Toaster } from "src/components/ui/toaster";
+import { toast } from "src/components/ui/use-toast";
+import useToken from "src/hooks/useToken";
 
-export default function Login() {
-  const nagivate = useNavigate();
+export default function Logi  () {
+  const navigate = useNavigate();
 
   const [info, setInfo] = useState({
     id: "",
     pw: "",
   });
+
+  const [token] = useToken();
+
+  useEffect(() => {
+    if (!!token) {
+      navigate(-1);
+    }
+  }, [token]);
 
   function onChange(e) {
     setInfo((prev) => ({
@@ -22,9 +33,18 @@ export default function Login() {
 
   async function sendInfo(e) {
     e.preventDefault();
-    const { data } = await login(info);
-    Cookies.set("access_token", data);
-    nagivate(-1);
+    try {
+      const { data } = await login(info);
+      Cookies.set("access_token", data);
+      navigate(-1);
+    } catch (err) {
+      toast({
+        title: "로그인 실패!",
+        description: "다시 시도해 주세요",
+        variant: "destructive",
+      });
+      console.log(err);
+    }
   }
 
   return (
@@ -70,6 +90,7 @@ export default function Login() {
           </div>
         </form>
       </div>
+      <Toaster />
     </div>
   );
 }

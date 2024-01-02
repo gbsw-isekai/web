@@ -1,22 +1,42 @@
 import { Link } from "react-router-dom";
+import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 
 export default function QuestionItem({
   id,
   title,
-  name,
-  viewCount
+  viewCount,
+  answers,
+  writer,
+  profile,
 }) {
   return (
-    <div className="p-4 max-w-5xl h-32 mx-auto mt-7 flex gap-3 items-center border border-solid rounded-xl">
-      <div>
-        {name}
-      </div>  
-      <div>
-        {viewCount}회
-      </div>
-      <div className="font-normal">
-        <Link to={`/question/${id}`}>{title}</Link>
+    <div className="p-4 max-w-5xl mx-auto mt-6 border border-solid rounded-xl flex items-center">
+      <div className="flex-1">
+        <div className="text-base md:text-lg lg:text-xl mb-3">
+          <Link to={`/questions/${id}`} className="text-black hover:underline">
+            {title}
+          </Link>
+        </div>
+        <div className="flex items-center gap-1">
+          <div>
+            <img
+              src={profile}
+              alt="user-profile"
+              className="w-5 h-5 rounded-full"
+            />
+          </div>
+          <div className="flex gap-3">
+            <div className="text-sm text-gray-600">{writer}</div>
+            <div className="text-sm text-gray-600">조회수 {viewCount}</div>
+            <div className="flex items-center gap-1">
+              <div className="text-sm text-gray-600">
+                <IoChatbubbleEllipsesOutline />
+              </div>
+              <div className="text-sm text-gray-600">{answers}</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  )
+  );
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { getCompanys } from "src/lib/company";
 import Header from "src/components/common/Header";
-import CompanyItem from "src/pages/Company/component/item";
+import CompanyItem from "src/pages/Company/components/item";
 import { Link } from "react-router-dom";
 
 export default function CompanyList() {

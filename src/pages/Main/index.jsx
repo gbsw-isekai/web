@@ -1,58 +1,55 @@
-import React from "react";
-import { Alert, AlertDescription, AlertTitle } from "../../components/ui/alert";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../..//components/ui/accordion";
-import { Button } from "../../components/ui/button";
-
-import { Terminal } from "lucide-react";
-import Header from "src/components/common/Header";
+import React, { useState } from 'react';
+import Header from 'src/components/common/Header';
 
 export default function Main() {
+  const [activeToggle, setActiveToggle] = useState('beforeAdmission');
+
+  const handleToggle = (toggleName) => {
+    setActiveToggle(toggleName);
+  };
+
+  const toggles = [
+    { name: 'beforeAdmission', label: '입학 전' },
+    { name: 'afterAdmission', label: '입학 후' },
+    { name: 'study', label: '공부' },
+    { name: 'jobSearch', label: '취업준비' },
+    { name: 'afterEmployment', label: '취업 후' },
+  ];
+
+  const toggleContents = {
+    beforeAdmission: '내용 1',
+    afterAdmission: '내용 2',
+    study: '내용 3',
+    jobSearch: '내용 4',
+    afterEmployment: '내용 5',
+  };
+
   return (
     <div>
-      <div>
-        <Header />
+      <Header />
+      <div className='text-center mt-10 text-xl font-bold'>
+        자주 묻는 질문
       </div>
-      <div>
-        <Alert>
-          <Terminal className="h-4 w-4" />
-          <AlertTitle>Heads up!</AlertTitle>
-          <AlertDescription>
-            You can add components and dependencies to your app using the cli.
-          </AlertDescription>
-        </Alert>
+      <div className="flex justify-center mt-8">
+        <div className="grid grid-cols-5 gap-6">
+          {toggles.map((toggle) => (
+            <button
+              key={toggle.name}
+              className={`w-32 h-14 px-4 py-2 rounded-2xl focus:outline-none transition duration-300 ${
+                activeToggle === toggle.name
+                  ? 'bg-gray-800 text-white'
+                  : 'bg-gray-200 text-gray-800 hover:bg-gray-400 hover:text-white'
+              }`}
+              onClick={() => handleToggle(toggle.name)}
+            >
+              {toggle.label}
+            </button>
+          ))}
+        </div>
       </div>
-      <div>
-        <Accordion type="single" collapsible className="w-full">
-          <AccordionItem value="item-1">
-            <AccordionTrigger>Is it accessible?</AccordionTrigger>
-            <AccordionContent>
-              Yes. It adheres to the WAI-ARIA design pattern.
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-2">
-            <AccordionTrigger>Is it styled?</AccordionTrigger>
-            <AccordionContent>
-              Yes. It comes with default styles that matches the other
-              components&apos; aesthetic.
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-3">
-            <AccordionTrigger>Is it animated?</AccordionTrigger>
-            <AccordionContent>
-              Yes. It&apos;s animated by default, but you can disable it if you
-              prefer.
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </div>
-      <div>
-        <Button>Button</Button>
+      <div className="mt-8 text-center">
+        <p>{toggleContents[activeToggle]}</p>
       </div>
     </div>
   );
-}
+};

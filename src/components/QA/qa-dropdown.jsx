@@ -16,20 +16,14 @@ const QADropDown = ({ isOwner, onDeleteHandler, editUrl, onEditHandler }) => {
       <DropdownMenuContent>
         {isOwner ? (
           <>
-            {editUrl || onEditHandler ? (
-              <DropdownMenuItem>
-                {editUrl ? (
-                  <Link to={editUrl}>수정하기</Link>
-                ) : (
-                  <div onClick={onEditHandler}>수정하기</div>
-                )}
+            {onEditHandler ? (
+              <DropdownMenuItem onClick={onEditHandler}>
+                <div>수정하기</div>
               </DropdownMenuItem>
             ) : null}
 
-            <DropdownMenuItem>
-              <div onClick={onDeleteHandler} className="text-red-600">
-                삭제하기
-              </div>
+            <DropdownMenuItem onClick={onDeleteHandler}>
+              <div className="text-red-600">삭제하기</div>
             </DropdownMenuItem>
           </>
         ) : (

@@ -43,7 +43,7 @@ const BoardEditor = ({ type }) => {
         const data = await getBoardById(id);
 
         if (data.data.writer.id !== userId) {
-          navigate(`/question/${questionId}`);
+          navigate(`/questions/${questionId}`);
         }
 
         if (boardType === "question") setTitle(data.data.title);
@@ -97,7 +97,7 @@ const BoardEditor = ({ type }) => {
     }
 
     navigate(
-      `/question/${boardType === "question" ? response.data.id : questionId}`
+      `/questions/${boardType === "question" ? response.data.id : questionId}`
     );
   };
 

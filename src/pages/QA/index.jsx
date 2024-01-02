@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Answer from "./answer";
+import Answer from "../../components/QA/answer";
 
 import { Link, useNavigate, useParams } from "react-router-dom/dist";
 import dayjs from "dayjs";
@@ -10,18 +10,31 @@ import { Separator } from "src/components/ui/separator";
 import { Button } from "src/components/ui/button";
 
 import "dayjs/locale/ko";
-import Comments from "./Comment";
+import Comments from "../../components/QA/Comment";
 import { createView, deleteBoard, getBoardById } from "src/lib/question";
-import { Textarea } from "src/components/ui/textarea";
 import QADropDown from "src/components/QA/qa-dropdown";
 dayjs.extend(relativeTime);
 dayjs.locale("ko");
 
 function QA() {
+  const initData = {
+    title: "Loading",
+    content: "Loading",
+    writer: {
+      id: "Loading",
+      name: "Loading",
+      profile: "https://picpac.kr/common/img/default_profile.png",
+    },
+    createdAt: "Loading",
+    viewCount: "Loading",
+    answers: [],
+  };
+
   const [token, userId] = useToken();
-  const [data, setData] = useState();
+  const [data, setData] = useState(initData);
   const { questionId } = useParams();
-  const navigator = useNavigate();
+  const [showComments, setShowComments] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -57,16 +70,16 @@ function QA() {
       }
 
       if (questionId_ === questionId) {
-        return navigator("/questions");
+        return navigate("/questions");
       }
 
       return getData();
     })();
   };
 
-  if (!data) {
-    return <h1>Loading</h1>;
-  }
+  const onClickShowCommentsBtn = () => {
+    setShowComments(!showComments);
+  };
 
   return (
     <div className="flex flex-col">
@@ -82,42 +95,53 @@ function QA() {
               <QADropDown
                 isOwner={data.isOwner}
                 onDeleteHandler={() => onDeleteHandler(questionId)}
-                editUrl={`/question/${questionId}/editor`}
+                onEditHandler={() => {
+                  navigate(`/questions/${questionId}/editor`);
+                }}
               />
             </div>
             <div
               className="text-pretty"
               dangerouslySetInnerHTML={{ __html: data.content }}
             />
-            <div className="">
-              <a href="/" className="text-blue-800">
-                고등학교진학
-              </a>
-            </div>
-            <div className="flex justify-between text-sm text-gray-700">
-              <div className="flex gap-2 items-center">
-                <div className="w-7 h-7 rounded-full overflow-hidden">
-                  <img src={data.writer.profile} alt="프로필사진" />
+            <div className="w-full flex justify-between text-sm text-gray-700">
+              <div className="w-full flex items-center justify-between">
+                <div className="flex gap-2 items-center">
+                  <div className="w-7 h-7 rounded-full overflow-hidden">
+                    <img src={data.writer.profile} alt="프로필사진" />
+                  </div>
+                  <div className="question-name">{data.writer.name}</div>
+                  <div className="question-date">
+                    · {dayjs(data.createdAt).fromNow()}
+                  </div>
+                  <div className="question-views">
+                    · 조회수 {data.viewCount}
+                  </div>
                 </div>
-                <div className="question-name">{data.writer.name}</div>
-                <div className="question-date">
-                  · {dayjs(data.createdAt).fromNow()}
+                <div
+                  className="cursor-pointer"
+                  onClick={onClickShowCommentsBtn}
+                >
+                  댓글
                 </div>
-                <div className="question-views">· 조회수 {data.viewCount}</div>
               </div>
             </div>
-            <div>
-              <Separator />
-            </div>
-            <div>
-              <Comments qaId={questionId} />
-            </div>
+            {showComments ? (
+              <>
+                <div>
+                  <Separator />
+                </div>
+                <div>
+                  <Comments qaId={questionId} />
+                </div>
+              </>
+            ) : null}
           </div>
         </div>
         <div className="w-full max-w-[1024px] mx-auto text-xl flex justify-between">
           <Link
             className="w-full"
-            to={`/question/${questionId}/answers/editor`}
+            to={`/questions/${questionId}/answers/editor`}
           >
             <Button className="w-full">답변하기</Button>
           </Link>
@@ -134,11 +158,14 @@ function QA() {
               profile={e.writer.profile}
               content={e.content}
               isOwner={e.writer.id === userId}
-              editUrl={`/question/${questionId}/answers/${e.id}/editor`}
+              onEditHandler={() => {
+                navigate(`/questions/${questionId}/answers/${e.id}/editor`);
+              }}
               className="w-full max-w-[1024px] mx-auto border rounded-md px-4 py-4 flex flex-col gap-4"
               onDeleteHandler={() => {
                 onDeleteHandler(e.id);
               }}
+              createdAt={e.createdAt}
             />
           ))}
         </div>

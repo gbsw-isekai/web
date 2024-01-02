@@ -15,26 +15,29 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/question/editor" element={<BoardEditor type="1" />} />
-        <Route path="/question/:questionId" element={<QA />} />
+        <Route path="/questions/editor" element={<BoardEditor type="1" />} />
+        <Route path="/questions/:questionId" element={<QA />} />
         <Route
-          path="/question/:questionId/editor"
+          path="/questions/:questionId/editor"
           element={<BoardEditor type="2" />}
         />
         <Route
-          path="/question/:questionId/answers/editor"
+          path="/questions/:questionId/answers/editor"
           element={<BoardEditor type="3" />}
         />
         <Route
-          path="/question/:questionId/answers/:answerId/editor"
+          path="/questions/:questionId/answers/:answerId/editor"
           element={<BoardEditor type="4" />}
         />
         <Route path="/questions" element={<Questions />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/users/join" element={<SignUp />} />
 
-        <Route path="/companies" element={<CompanyList/>}/>
-        <Route path="/companies/:companiesId" element={<CompanyDetail/>}></Route>
+        <Route path="/companies" element={<CompanyList />} />
+        <Route
+          path="/companies/:companiesId"
+          element={<CompanyDetail />}
+        ></Route>
       </Routes>
     </BrowserRouter>
   );

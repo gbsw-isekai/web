@@ -17,11 +17,15 @@ export default function Main() {
   ];
 
   const toggleContents = {
-    beforeAdmission: '내용 1',
-    afterAdmission: '내용 2',
-    study: '내용 3',
-    jobSearch: '내용 4',
-    afterEmployment: '내용 5',
+    beforeAdmission: [
+      '연애할 수 있을까요?',
+      '경소고 선배 예쁜가요?',
+      '경소고 사감 허리 괜찮은가요?',
+    ],
+    afterAdmission: ['집에 어떻게 가요?', '방에서 라면먹으면 안되나요?', '뭘 공부해야 하나요?'],
+    study: ['뭐를 공부해야해요?', '보안할까요 코딩할까요?', '일반과목 어떻게 해요?'],
+    jobSearch: ['회사 어디가 좋아요?', '돈 많이주는곳 가고싶어요'],
+    afterEmployment: ['아 넣을 데이터가 없다'],
   };
 
   return (
@@ -37,7 +41,7 @@ export default function Main() {
               key={toggle.name}
               className={`w-32 h-14 px-4 py-2 rounded-2xl focus:outline-none transition duration-300 ${
                 activeToggle === toggle.name
-                  ? 'bg-gray-800 text-white'
+                  ? 'bg-gray-800 text-white'  
                   : 'bg-gray-200 text-gray-800 hover:bg-gray-400 hover:text-white'
               }`}
               onClick={() => handleToggle(toggle.name)}
@@ -48,7 +52,11 @@ export default function Main() {
         </div>
       </div>
       <div className="mt-8 text-center">
-        <p>{toggleContents[activeToggle]}</p>
+        <div className="max-w-md mx-auto">
+          {toggleContents[activeToggle].map((content, index) => (
+            <p key={index} className="mb-2 text-gray-800">{content}</p>
+          ))}
+        </div>
       </div>
     </div>
   );

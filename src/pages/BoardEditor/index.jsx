@@ -113,8 +113,13 @@ const BoardEditor = ({ type }) => {
         setTitle={setTitle}
         title={title}
         saveBoard={saveBoard}
+        className="max-w-6xl self-center"
       />
-      <Editor htmlStr={content} setHtmlStr={setContent} />
+      <Editor
+        htmlStr={content}
+        setHtmlStr={setContent}
+        className="h-full max-w-6xl w-full self-center"
+      />
       <Toaster />
     </div>
   );

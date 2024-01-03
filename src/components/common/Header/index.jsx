@@ -42,6 +42,13 @@ export default function Header() {
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link to="/portfolio">
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  포트폴리오
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
         <div className="flex-1"></div>

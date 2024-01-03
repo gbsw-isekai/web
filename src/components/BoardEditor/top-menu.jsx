@@ -1,12 +1,12 @@
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
-const TopMenu = ({ boardType, setTitle, title, saveBoard }) => {
+const TopMenu = ({ boardType, setTitle, title, saveBoard, className }) => {
   return (
-    <div className="w-full h-10 flex items-center">
+    <div className={`w-full h-10 flex items-center ${className}`}>
       {boardType === "question" ? (
         <Input
-          className="h-10 flex-1 outline-none"
+          className="h-10 flex-1 outline-none rounded-none border-none"
           placeholder="제목"
           onChange={(e) => setTitle(e.target.value)}
           value={title}

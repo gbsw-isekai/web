@@ -8,7 +8,7 @@ import { Toaster } from "src/components/ui/toaster";
 import { toast } from "src/components/ui/use-toast";
 import useToken from "src/hooks/useToken";
 
-export default function Logi  () {
+export default function Login() {
   const navigate = useNavigate();
 
   const [info, setInfo] = useState({

@@ -37,10 +37,15 @@ export default function CompanyList() {
   useEffect(() => {
     async function wait() {
       try {
+<<<<<<< HEAD
         console.log(searchKey);
         const companys = await getCompanys(pageId, searchKey);
         setMaxPage(companys.totalPages);
         setCompanys(companys.content);
+=======
+        const companys = await getCompanys();
+        setCompanys(companys);
+>>>>>>> 32b52dac4b86ed13846ab28ce5d64b53196301ce
         setLoad(true);
       } catch {
         setError(true);
@@ -52,23 +57,28 @@ export default function CompanyList() {
   }, [pageId, searchKey]);
 
   if (load) {
-    return '조회중'
+    return "조회중";
   }
 
-  if(error) {
-    return '에런데용?'
+  if (error) {
+    return "에런데용?";
   }
 
+<<<<<<< HEAD
   const SearchCheck = (e) => {
     setSerchKey(e.target.value);
   }
   
 	return (
+=======
+  return (
+>>>>>>> 32b52dac4b86ed13846ab28ce5d64b53196301ce
     <div>
       <div>
-        <Header/>
+        <Header />
       </div>
       <div className="max-w-3xl mx-auto">
+<<<<<<< HEAD
         <Command>
           <CommandInput placeholder="search..." onChange={SearchCheck}/>
         </Command>
@@ -97,6 +107,24 @@ export default function CompanyList() {
             />
           </Link>
         ))}
+=======
+        {companys.map(
+          ({ id, name, stack, grade, averageSalary, viewsCount }) => (
+            <Link to={`/companies/${id}`}>
+              <CompanyItem
+                id={id}
+                name={name}
+                stack={stack}
+                grade={grade}
+                genre={"기업종류예시"}
+                area={"회사"}
+                averageSalary={averageSalary}
+                viewsCount={viewsCount}
+              />
+            </Link>
+          )
+        )}
+>>>>>>> 32b52dac4b86ed13846ab28ce5d64b53196301ce
       </div>
       <Pagination>
         <PaginationContent>
@@ -145,5 +173,5 @@ export default function CompanyList() {
         </PaginationContent>
       </Pagination>
     </div>
-	)
+  );
 }

@@ -5,6 +5,7 @@ import { useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/ko";
+import BoardLike from "./board-like";
 dayjs.extend(relativeTime);
 dayjs.locale("ko");
 
@@ -18,9 +19,9 @@ function Answer({
   className,
   onDeleteHandler,
   createdAt,
+  likeCtn,
 }) {
   const [showComments, setShowComments] = useState(false);
-
   const onClickShowCommentsBtn = () => {
     setShowComments(!showComments);
   };
@@ -52,10 +53,11 @@ function Answer({
         </div>
       </div>
       <div dangerouslySetInnerHTML={{ __html: content }}></div>
-      <div className="w-full flex justify-end">
+      <div className="w-full flex justify-end items-center gap-2 text-sm">
         <div className="cursor-pointer" onClick={onClickShowCommentsBtn}>
           댓글
         </div>
+        <BoardLike qaId={id} count={likeCtn} />
       </div>
       {showComments ? (
         <>

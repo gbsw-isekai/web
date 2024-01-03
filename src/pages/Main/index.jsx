@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Header from 'src/components/common/Header';
+import './style.css';
+import { Input } from 'src/components/ui/input';
 
 export default function Main() {
   const [activeToggle, setActiveToggle] = useState('beforeAdmission');
@@ -53,6 +55,12 @@ export default function Main() {
   return (
     <div> 
       <Header />
+      <div className="gradient-card flex flex-col w-full py-20 justify-center items-center gap-5">
+        <div className="text-4xl font-bold text-white">
+          경소고 생활의 지름길
+        </div>
+        <Input className="w-full max-w-lg" placeholder="궁금한 점을 입력해보세요"/>
+      </div>
       <div className='text-center mt-10 text-3xl font-bold text-gray-800'>
         Q. 자주 묻는 질문
       </div>

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { createComment, updateComment } from "../../../../lib/question";
-import useToken from "src/hooks/useToken";
 import { Textarea } from "src/components/ui/textarea";
 import { Button } from "src/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { toast } from "src/components/ui/use-toast";
 
 export default function CommentForm({
   qaId,
@@ -49,6 +49,16 @@ export default function CommentForm({
 
       if (!token) {
         navigate("/auth/login");
+      }
+
+      if (commentDto.content.trim() === "") {
+        toast({
+          title: "댓글을 입력해주세요!",
+          description: "다시 시도해 주세요",
+          variant: "destructive",
+        });
+
+        return;
       }
 
       setLoad(true);

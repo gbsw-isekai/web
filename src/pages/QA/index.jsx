@@ -13,6 +13,9 @@ import "dayjs/locale/ko";
 import Comments from "../../components/QA/Comment";
 import { createView, deleteBoard, getBoardById } from "src/lib/question";
 import QADropDown from "src/components/QA/qa-dropdown";
+import { Toaster } from "src/components/ui/toaster";
+import { Heart } from "lucide-react";
+import BoardLike from "src/components/QA/board-like";
 dayjs.extend(relativeTime);
 dayjs.locale("ko");
 
@@ -28,6 +31,8 @@ function QA() {
     createdAt: "Loading",
     viewCount: "Loading",
     answers: [],
+    like: [],
+    isLoading: false,
   };
 
   const [token, userId] = useToken();
@@ -53,8 +58,7 @@ function QA() {
       if (userId === getData.data.writer.id) getData.data["isOwner"] = true;
       else getData.data["isOwner"] = false;
     }
-
-    setData(getData.data);
+    setData({ ...getData.data, isLoading: true });
   };
 
   useEffect(() => {
@@ -118,11 +122,16 @@ function QA() {
                     · 조회수 {data.viewCount}
                   </div>
                 </div>
-                <div
-                  className="cursor-pointer"
-                  onClick={onClickShowCommentsBtn}
-                >
-                  댓글
+                <div className="flex items-center gap-3">
+                  <div
+                    className="cursor-pointer"
+                    onClick={onClickShowCommentsBtn}
+                  >
+                    댓글
+                  </div>
+                  {data.isLoading ? (
+                    <BoardLike qaId={questionId} count={data.like.length} />
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -166,11 +175,12 @@ function QA() {
                 onDeleteHandler(e.id);
               }}
               createdAt={e.createdAt}
+              likeCtn={e.like.length}
             />
           ))}
         </div>
       </div>
-      <footer className="main-footer"></footer>
+      <Toaster />
     </div>
   );
 }

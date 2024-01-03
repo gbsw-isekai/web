@@ -113,3 +113,36 @@ export async function deleteComment(qaId, id, token) {
   });
   return data;
 }
+
+export async function createLike(qaId, token) {
+  const { data } = await axios({
+    method: "post",
+    url: `${process.env.REACT_APP_SERVER}/boards/${qaId}/likes/me`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return data;
+}
+
+export async function deleteLike(qaId, token) {
+  const { data } = await axios({
+    method: "delete",
+    url: `${process.env.REACT_APP_SERVER}/boards/${qaId}/likes/me`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return data;
+}
+
+export async function getIsLikeByBoard(qaId, token) {
+  const { data } = await axios({
+    method: "get",
+    url: `${process.env.REACT_APP_SERVER}/boards/${qaId}/likes/me`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return data;
+}

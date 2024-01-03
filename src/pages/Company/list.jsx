@@ -13,11 +13,11 @@ export default function CompanyList() {
   useEffect(() => {
     async function wait() {
       try {
-        setLoad(true)
-        const companys = await getCompanys()
-        setCompanys(companys)
+        const companys = await getCompanys();
+        setCompanys(companys);
+        setLoad(true);
       } catch {
-        setError(true)
+        setError(true);
       } finally {
         setLoad(false);
       }
@@ -26,30 +26,36 @@ export default function CompanyList() {
   }, []);
 
   if (load) {
-    return '조회중'
+    return "조회중";
   }
 
-  if(error) {
-    return '에런데용?'
+  if (error) {
+    return "에런데용?";
   }
-  
-	return (
+
+  return (
     <div>
       <div>
-        <Header/>
+        <Header />
       </div>
       <div className="max-w-3xl mx-auto">
-        {companys.map(({
-          id,
-          name,
-          stack,
-          grade,
-          averageSalary,
-          viewsCount
-        }) => (
-          <Link to={`/companies/${id}`}><CompanyItem id={id} name={name} stack={stack} grade={grade} genre={"기업종류예시"} area={"회사"} averageSalary={averageSalary} viewsCount={viewsCount}/></Link>
-        ))}
+        {companys.map(
+          ({ id, name, stack, grade, averageSalary, viewsCount }) => (
+            <Link to={`/companies/${id}`}>
+              <CompanyItem
+                id={id}
+                name={name}
+                stack={stack}
+                grade={grade}
+                genre={"기업종류예시"}
+                area={"회사"}
+                averageSalary={averageSalary}
+                viewsCount={viewsCount}
+              />
+            </Link>
+          )
+        )}
       </div>
     </div>
-	)
+  );
 }

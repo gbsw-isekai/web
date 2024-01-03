@@ -60,9 +60,7 @@ export default function Header() {
         <div className="flex items-center">
           <Terminal className="w-6 h-6" />
           <div className="ml-2">
-            <Link to="/">
-              GBSWJOB
-            </Link>
+            <Link to="/">GBSWJOB</Link>
           </div>
         </div>
         {/* <div className="ml-5">
@@ -90,9 +88,7 @@ export default function Header() {
         </NavigationMenu>
         <div className="flex-1"></div>
         <Link to="/auth/login" className="self-end">
-          <Button className="w-24">
-            로그인
-          </Button>
+          <Button className="w-24">로그인</Button>
         </Link>
       </div>
     </div>

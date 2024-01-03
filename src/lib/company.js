@@ -1,9 +1,10 @@
 import axios from "axios";
 
-export async function getCompanys() {
+export async function getCompanys(pageId, searchKey) {
   const {data} = await axios({
     method: 'GET',
-    url: `${process.env.REACT_APP_SERVER}/companies`
+    url: `${process.env.REACT_APP_SERVER}/companies/pages/${pageId}`,
+    searchKey
   });
   return data;
 };

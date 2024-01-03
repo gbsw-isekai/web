@@ -42,8 +42,8 @@ function Questions() {
   return (
     <div>
       <Header />
-      {questions.map(({ id, title, content, answers, writer, viewCount}) => (
-        <QuestionItem key={id} id={id} viewCount={viewCount} answers={answers.length} writer={writer.name} profile={writer.profile} title={title} content={content} />
+      {questions.map(({ id, title, content, answers, writer, like, viewCount}) => (
+        <QuestionItem key={id} id={id} viewCount={viewCount} answers={answers.length} like={like} writer={writer.name} profile={writer.profile} title={title} content={content} />
       ))}
     </div>
   );

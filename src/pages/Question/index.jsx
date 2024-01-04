@@ -6,6 +6,7 @@ import QuestionItemCard from "src/components/Question/itemCard";
 import QuestionItemList from "src/components/Question/itemList";
 import QuestionItemListSkeleton from "src/components/Question/itemListSkeleton";
 import { useSearchParams } from "react-router-dom";
+import QuestionItemCardSkeleton from "src/components/Question/itemCardSkeleton";
 
 function Questions() {
   const [questions, setQuestions] = useState([]);
@@ -44,20 +45,34 @@ function Questions() {
       <Header />
       <QuestionTopMenu orderType={orderType} viewType={viewType} />
       <div>
-        {load && (
-          <>
-            <QuestionItemListSkeleton />
-            <QuestionItemListSkeleton />
-            <QuestionItemListSkeleton />
-            <QuestionItemListSkeleton />
-            <QuestionItemListSkeleton />
-            <QuestionItemListSkeleton />
-            <QuestionItemListSkeleton />
-            <QuestionItemListSkeleton />
-            <QuestionItemListSkeleton />
-            <QuestionItemListSkeleton />
-          </>
-        )}
+        {load &&
+          (viewType === "list" ? (
+            <>
+              <QuestionItemListSkeleton />
+              <QuestionItemListSkeleton />
+              <QuestionItemListSkeleton />
+              <QuestionItemListSkeleton />
+              <QuestionItemListSkeleton />
+              <QuestionItemListSkeleton />
+              <QuestionItemListSkeleton />
+              <QuestionItemListSkeleton />
+              <QuestionItemListSkeleton />
+              <QuestionItemListSkeleton />
+            </>
+          ) : (
+            <>
+              <QuestionItemCardSkeleton />
+              <QuestionItemCardSkeleton />
+              <QuestionItemCardSkeleton />
+              <QuestionItemCardSkeleton />
+              <QuestionItemCardSkeleton />
+              <QuestionItemCardSkeleton />
+              <QuestionItemCardSkeleton />
+              <QuestionItemCardSkeleton />
+              <QuestionItemCardSkeleton />
+              <QuestionItemCardSkeleton />
+            </>
+          ))}
         {error && <div className="text-center py-8">에러</div>}
         {questions.map(
           ({

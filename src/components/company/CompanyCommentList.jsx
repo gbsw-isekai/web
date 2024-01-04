@@ -1,6 +1,5 @@
 import useToken from "src/hooks/useToken";
 import { Button } from "../ui/button";
-import { useEffect, useState } from "react";
 import { deleteCompanyComment } from "src/lib/company";
 
 export default function CompanyCommentList({ comments, companyId }) {

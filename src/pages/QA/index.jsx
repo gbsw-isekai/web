@@ -109,7 +109,7 @@ function QA() {
       return;
     }
 
-    navigate(`/questions/${questionId}/editor`);
+    navigate(`/questions/${questionId}/answers/editor`);
   };
 
   return (

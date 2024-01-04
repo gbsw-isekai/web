@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useToken from "src/hooks/useToken";
 import { createLike, deleteLike, getIsLikeByBoard } from "src/lib/question";
+import { toast } from "../ui/use-toast";
+import { ToastAction } from "../ui/toast";
 
 const BoardLike = ({ qaId, count }) => {
   const [isLike, setIsLike] = useState(false);
@@ -23,8 +25,19 @@ const BoardLike = ({ qaId, count }) => {
       if (!isLoading) return;
 
       if (!token) {
-        alert("로그인 ㄱㄱ");
-        navigate("/auth/login");
+        toast({
+          title: "로그인이 필요한 서비스 입니다.",
+          description: "로그인 후 다시 시도해 주세요",
+          variant: "destructive",
+          action: (
+            <ToastAction
+              altText="로그인 페이지로 이동"
+              onClick={() => navigate("/auth/login")}
+            >
+              로그인 페이지로 이동
+            </ToastAction>
+          ),
+        });
       }
 
       if (isLike) {

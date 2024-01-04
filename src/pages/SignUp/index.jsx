@@ -46,7 +46,6 @@ export default function SignUp() {
         description: "다시 시도해 주세요",
         variant: "destructive",
       });
-      console.log(err);
     }
   }
 

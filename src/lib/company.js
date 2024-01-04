@@ -71,3 +71,32 @@ export function createCompanyReview(id, data, token) {
 
   return response;
 }
+
+export function updateCompanyReview(id, data, token) {
+  const response = axios({
+    method: "PUT",
+    url: `${process.env.REACT_APP_SERVER}/companies/reviews/${id}`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    data,
+  }).catch((err) => {
+    return err;
+  });
+
+  return response;
+}
+
+export function deleteCompanyReview(id, token) {
+  const response = axios({
+    method: "DELETE",
+    url: `${process.env.REACT_APP_SERVER}/companies/reviews/${id}`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).catch((err) => {
+    return err;
+  });
+
+  return response;
+}

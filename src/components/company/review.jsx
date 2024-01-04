@@ -4,7 +4,7 @@ import React from "react";
 
 export default function CompanyReview({ reviews }) {
   return (
-    <div className="flex flex-col gap-4">
+    <div>
       {reviews.map((review) => (
         <ReviewDetail review={review} />
       ))}

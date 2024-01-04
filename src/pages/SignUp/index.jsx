@@ -36,8 +36,6 @@ export default function SignUp() {
   async function sendInfo(e) {
     e.preventDefault();
     try {
-      console.log(token);
-
       const { data } = await signUp(userInfo, token);
       Cookies.set("access_token", data);
 

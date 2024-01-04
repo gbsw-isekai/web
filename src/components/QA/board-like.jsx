@@ -28,11 +28,11 @@ const BoardLike = ({ qaId, count }) => {
       }
 
       if (isLike) {
-        const data = await deleteLike(qaId, token);
+        await deleteLike(qaId, token);
         setIsLike(false);
         setLikeCount(likeCnt - 1);
       } else {
-        const data = await createLike(qaId, token);
+        await createLike(qaId, token);
         setIsLike(true);
         setLikeCount(likeCnt + 1);
       }

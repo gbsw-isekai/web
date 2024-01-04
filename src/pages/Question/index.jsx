@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
 import { getQuestions } from "../../lib/question";
-import QuestionItem from "./item";
 import Header from "src/components/common/Header";
+import QuestionTopMenu from "src/components/Question/question-top-menu";
+import QuestionItemCard from "src/components/Question/itemCard";
+import QuestionItemList from "src/components/Question/itemList";
+import QuestionItemListSkeleton from "src/components/Question/itemListSkeleton";
+import { useSearchParams } from "react-router-dom";
 
 function Questions() {
   const [questions, setQuestions] = useState([]);
   const [load, setLoad] = useState(true);
   const [error, setError] = useState(false);
-
+  const [searchParams, setSearchParams] = useSearchParams();
+  const orderType = searchParams.get("order") ?? "latest";
+  const viewType = searchParams.get("view") ?? "list";
   // const questionList = questions.map(({
   //   id,
   //   title,
@@ -19,8 +25,10 @@ function Questions() {
   useEffect(() => {
     async function wait() {
       try {
+        setError(false);
         setLoad(true);
-        const questions = await getQuestions();
+        setQuestions([]);
+        const questions = await getQuestions(orderType);
         setQuestions(questions);
       } catch (error) {
         setError(true);
@@ -29,21 +37,73 @@ function Questions() {
       }
     }
     wait();
-  }, []);
-  if (load) {
-    return "조회중";
-  }
-
-  if (error) {
-    return "에러 발생";
-  }
+  }, [orderType]);
 
   return (
     <div>
       <Header />
-      {questions.map(({ id, title, content, answers, writer, like, viewCount}) => (
-        <QuestionItem key={id} id={id} viewCount={viewCount} answers={answers.length} like={like} writer={writer.name} profile={writer.profile} title={title} content={content} />
-      ))}
+      <QuestionTopMenu orderType={orderType} viewType={viewType} />
+      <div>
+        {load && (
+          <>
+            <QuestionItemListSkeleton />
+            <QuestionItemListSkeleton />
+            <QuestionItemListSkeleton />
+            <QuestionItemListSkeleton />
+            <QuestionItemListSkeleton />
+            <QuestionItemListSkeleton />
+            <QuestionItemListSkeleton />
+            <QuestionItemListSkeleton />
+            <QuestionItemListSkeleton />
+            <QuestionItemListSkeleton />
+          </>
+        )}
+        {error && <div className="text-center py-8">에러</div>}
+        {questions.map(
+          ({
+            id,
+            title,
+            content,
+            answers,
+            writer,
+            like,
+            viewCount,
+            createdAt,
+          }) => {
+            if (viewType == "list") {
+              return (
+                <QuestionItemList
+                  key={id}
+                  id={id}
+                  viewCount={viewCount}
+                  answers={answers.length}
+                  like={like}
+                  writer={writer.name}
+                  profile={writer.profile}
+                  title={title}
+                  content={content}
+                  createdAt={createdAt}
+                />
+              );
+            } else {
+              return (
+                <QuestionItemCard
+                  key={id}
+                  id={id}
+                  viewCount={viewCount}
+                  answers={answers.length}
+                  like={like}
+                  writer={writer.name}
+                  profile={writer.profile}
+                  title={title}
+                  content={content}
+                  createdAt={createdAt}
+                />
+              );
+            }
+          }
+        )}
+      </div>
     </div>
   );
 }

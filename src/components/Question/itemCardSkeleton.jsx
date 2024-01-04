@@ -1,6 +1,3 @@
-import { Link } from "react-router-dom";
-import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
-import { CiHeart } from "react-icons/ci";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Skeleton } from "@radix-ui/themes";

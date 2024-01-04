@@ -12,7 +12,7 @@ function Questions() {
   const [questions, setQuestions] = useState([]);
   const [load, setLoad] = useState(true);
   const [error, setError] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const orderType = searchParams.get("order") ?? "latest";
   const viewType = searchParams.get("view") ?? "list";
   // const questionList = questions.map(({
@@ -85,7 +85,7 @@ function Questions() {
             viewCount,
             createdAt,
           }) => {
-            if (viewType == "list") {
+            if (viewType === "list") {
               return (
                 <QuestionItemList
                   key={id}

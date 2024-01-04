@@ -43,7 +43,7 @@ const QuestionTopMenu = ({
       <ul className="flex gap-2">
         {orderTypes.map((e, idx) => (
           <li className="flex gap-2 text-gray-600">
-            {idx != 0 ? "·" : ""}
+            {idx !== 0 ? "·" : ""}
             <Link to={`/questions?view=${viewType}&order=${e.code}`}>
               <div
                 className={`cursor-pointer ${

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Answer from "../../components/QA/answer";
 
-import { Link, useNavigate, useParams } from "react-router-dom/dist";
+import { useNavigate, useParams } from "react-router-dom/dist";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import useToken from "../../hooks/useToken";
@@ -15,6 +15,8 @@ import { createView, deleteBoard, getBoardById } from "src/lib/question";
 import QADropDown from "src/components/QA/qa-dropdown";
 import { Toaster } from "src/components/ui/toaster";
 import BoardLike from "src/components/QA/board-like";
+import { toast } from "src/components/ui/use-toast";
+import { ToastAction } from "src/components/ui/toast";
 dayjs.extend(relativeTime);
 dayjs.locale("ko");
 
@@ -40,14 +42,16 @@ function QA() {
   const [showComments, setShowComments] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    (async () => {
-      const response = await createView(questionId, token);
+  const createView_ = async () => {
+    try {
+      await createView(questionId, token);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-      if (response.status !== 200) {
-        console.log("에러");
-      }
-    })();
+  useEffect(() => {
+    createView_();
   }, [questionId, token]);
 
   const getData = async () => {
@@ -64,30 +68,54 @@ function QA() {
     getData();
   }, [questionId, token, userId]);
 
-  const onDeleteHandler = (questionId_) => {
-    (async () => {
-      const response = await deleteBoard(questionId_, token);
-
-      if (response.status !== 200) {
-        console.log("에러");
-      }
+  const onDeleteHandler = async (questionId_) => {
+    try {
+      await deleteBoard(questionId_, token);
 
       if (questionId_ === questionId) {
         return navigate("/questions");
       }
 
-      return getData();
-    })();
+      getData();
+    } catch (err) {
+      toast({
+        title: "게시글 삭제 실패",
+        description: "다시 시도해 주세요",
+        variant: "destructive",
+      });
+    }
   };
 
   const onClickShowCommentsBtn = () => {
     setShowComments(!showComments);
   };
 
+  const onClickAnswerBtnHandler = () => {
+    if (!token) {
+      toast({
+        title: "로그인이 필요한 서비스 입니다.",
+        description: "로그인 후 다시 시도해 주세요",
+        variant: "destructive",
+        action: (
+          <ToastAction
+            altText="로그인 페이지로 이동"
+            onClick={() => navigate("/auth/login")}
+          >
+            로그인 페이지로 이동
+          </ToastAction>
+        ),
+      });
+
+      return;
+    }
+
+    navigate(`/questions/${questionId}/editor`);
+  };
+
   return (
     <div className="flex flex-col">
       <Header />
-      <div className="w-full min-h-[calc(100vh-56.67px)] flex flex-col gap-5 py-8">
+      <div className="w-full flex flex-col gap-5 py-8">
         <div className="flex flex-col w-full min-h-full bg-white">
           <div className="flex flex-col w-full max-w-[1024px] self-center border rounded-md px-4 py-4 gap-5">
             <div className="flex items-center justify-between">
@@ -147,12 +175,9 @@ function QA() {
           </div>
         </div>
         <div className="w-full max-w-[1024px] mx-auto text-xl flex justify-between">
-          <Link
-            className="w-full"
-            to={`/questions/${questionId}/answers/editor`}
-          >
-            <Button className="w-full">답변하기</Button>
-          </Link>
+          <Button className="w-full" onClick={onClickAnswerBtnHandler}>
+            답변하기
+          </Button>
         </div>
         <div className="w-full max-w-[1024px] mx-auto text-xl flex justify-between">
           <div>총 {data.answers.length}개의 답변이 있어요.</div>

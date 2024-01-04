@@ -22,6 +22,8 @@ export default function Portfolio() {
         "https://www.rallit.com/hub/resumes/35437/%EB%82%A8%EC%84%B8%EC%9B%90",
       portfolio: "https://github.com/nswon",
       blog: "https://skatpdnjs.tistory.com/",
+      profile:
+        "https://cdn.rallit.com/image/2023-12-14/v4Z0ZEKP_wsMCm5I9vfSC.jpeg?w=376",
     },
     {
       name: "김민재",
@@ -41,6 +43,8 @@ export default function Portfolio() {
         "https://www.rallit.com/hub/resumes/795910/%EA%B9%80%EB%AF%BC%EC%9E%AC",
       portfolio: "",
       blog: "https://crow07.tistory.com/",
+      profile:
+        "https://cdn.rallit.com/image/2023-12-22/hYQzHEqMkXqJG7XFAXQzy.jpeg?w=536",
     },
     {
       name: "박재욱",
@@ -52,6 +56,8 @@ export default function Portfolio() {
         "https://www.rallit.com/hub/resumes/1153069/%EB%B0%95%EC%9E%AC%EC%9A%B1",
       portfolio: "https://github.com/wodnrP/Recipe_project",
       blog: "https://velog.io/@wodnr_09/posts",
+      profile:
+        "https://cdn.rallit.com/image/2023-08-03/Ogcw0NqoW-5mHYTdmcidA.jpeg?w=536",
     },
     {
       name: "이석호",
@@ -74,6 +80,8 @@ export default function Portfolio() {
         "https://www.rallit.com/hub/resumes/277614/%EC%9D%B4%EC%84%9D%ED%98%B8",
       portfolio: "https://github.com/rrgks6221",
       blog: "",
+      profile:
+        "https://cdn.rallit.com/image/2023-03-30/dNM5PDCbqWUpQABsZzloI.png?w=376",
     },
     {
       name: "엄준서",
@@ -86,6 +94,8 @@ export default function Portfolio() {
         "https://www.rallit.com/hub/resumes/6883/%EC%97%84%EC%A4%80%EC%84%9C",
       portfolio: "https://github.com/djawnstj",
       blog: "https://velog.io/@djawnstj/posts",
+      profile:
+        "https://cdn.rallit.com/image/2023-08-28/CK5R0KieVuqXMSoSH5lEZ.JPG?w=376",
     },
     {
       name: "김석규",
@@ -112,6 +122,8 @@ export default function Portfolio() {
         "https://www.rallit.com/hub/resumes/1138245/%EA%B9%80%EC%84%9D%EA%B7%9C",
       portfolio: "https://github.com/ksg9482",
       blog: "https://for-leaning.tistory.com/",
+      profile:
+        "https://cdn.rallit.com/image/2023-10-16/iKCmqtpa1OgoBv-JuPPt5.jpg?w=376",
     },
     {
       name: "박종하",
@@ -138,6 +150,8 @@ export default function Portfolio() {
         "https://www.rallit.com/hub/resumes/138813/%EB%B0%95%EC%A2%85%ED%95%98",
       portfolio: "https://github.com/archan0621",
       blog: "https://archanwriteup.tistory.com/",
+      profile:
+        "https://cdn.rallit.com/image/2023-05-18/Vs-ER1p7l5K-9fE-pddu_.png?w=376",
     },
     {
       name: "최파란별",
@@ -151,38 +165,48 @@ export default function Portfolio() {
       portfolio:
         "https://ssxst31.notion.site/ssxst31/Palanbyeol-Choi-d8a632bee1674153bc83995febfc58b0",
       blog: "",
+      profile:
+        "https://cdn.rallit.com/image/2023-11-30/OHI7FkRJgJKa8py_x_rv6.png?w=376",
     },
   ];
   return (
     <div>
       <Header />
       <div className="max-w-5xl mx-auto mt-5 grid grid-cols-4 auto-rows-auto gap-y-5">
-        {data.map(({ name, intro, category, tech, career, resume }) => (
-          <Link to={resume} className="w-60">
-            <div className="w-full h-60 bg-slate-500 rounded-lg"></div>
-            <div className="w-full">
-              <div className="flex items-center gap-1 mt-2">
-                <div className="font-bold text-lg">{name}</div>
-                <div className="text-sm text-gray-600">{category}</div>
+        {data.map(
+          ({ name, intro, category, tech, career, resume, profile }) => (
+            <Link to={resume} className="w-60">
+              <div className="w-full h-60 bg-slate-500 rounded-lg">
+                <img
+                  src={profile}
+                  alt="profile-img"
+                  className="w-full h-60 bg-slate-500 rounded-lg"
+                />
               </div>
-              <div className="flex text-xs text-gray-500 mb-4">
-                <div>연차</div>
-                <div className="mr-1 ml-1">·</div>
-                <div>{career}</div>
-              </div>
-              <div className="w-full text-sm">
-                <div className="mb-1">{intro}</div>
-                <div className="w-full flex gap-1 text-[10px] font-bold overflow-hidden flex-wrap">
-                  {tech.map((e) => (
-                    <div className="bg-slate-200 text-gray-600 px-2 py-[2px] rounded-sm">
-                      {e}
-                    </div>
-                  ))}
+              <div className="w-full">
+                <div className="flex items-center gap-1 mt-2">
+                  <div className="font-bold text-lg">{name}</div>
+                  <div className="text-sm text-gray-600">{category}</div>
+                </div>
+                <div className="flex text-xs text-gray-500 mb-4">
+                  <div>연차</div>
+                  <div className="mr-1 ml-1">·</div>
+                  <div>{career}</div>
+                </div>
+                <div className="w-full text-sm">
+                  <div className="mb-1">{intro}</div>
+                  <div className="w-full flex gap-1 text-[10px] font-bold overflow-hidden flex-wrap">
+                    {tech.map((e) => (
+                      <div className="bg-slate-200 text-gray-600 px-2 py-[2px] rounded-sm">
+                        {e}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          )
+        )}
       </div>
     </div>
   );

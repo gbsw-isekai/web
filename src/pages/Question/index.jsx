@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { getQuestions } from "../../lib/question";
 import QuestionItem from "./item";
-import QA from "../QA/index"
 import Header from "src/components/common/Header";
 
 function Questions() {

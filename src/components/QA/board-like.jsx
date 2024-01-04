@@ -1,5 +1,6 @@
 import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useToken from "src/hooks/useToken";
 import { createLike, deleteLike, getIsLikeByBoard } from "src/lib/question";
 
@@ -8,6 +9,7 @@ const BoardLike = ({ qaId, count }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [token] = useToken();
   const [likeCnt, setLikeCount] = useState(count);
+  const navigate = useNavigate();
 
   const getData = async () => {
     const getIsLike = await getIsLikeByBoard(qaId, token);
@@ -19,6 +21,11 @@ const BoardLike = ({ qaId, count }) => {
   const onClickLikeHandler = async () => {
     try {
       if (!isLoading) return;
+
+      if (!token) {
+        alert("로그인 ㄱㄱ");
+        navigate("/auth/login");
+      }
 
       if (isLike) {
         const data = await deleteLike(qaId, token);

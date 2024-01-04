@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useToken from "../../hooks/useToken";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  companyViewCount,
-  getCompany,
-  createCompanyComment,
-  createCompanyReview,
-} from "src/lib/company";
+import { createCompanyComment, createCompanyReview } from "src/lib/company";
 import Header from "src/components/common/Header";
 import { Briefcase, MapPin } from "lucide-react";
 import CompanyReview from "src/components/company/review";
@@ -14,7 +9,7 @@ import CompanyCommentForm from "src/components/company/Form/CompanyCommentForm";
 import useSWR from "swr";
 import { fetcher } from "src/lib/fetcher";
 import CompanyCommentList from "src/components/company/CompanyCommentList";
-import { Line, Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -25,6 +20,8 @@ import {
   Tooltip,
   Legend,
   BarElement,
+  LineController,
+  BarController,
 } from "chart.js";
 import { Label } from "src/components/ui/label";
 import { Input } from "src/components/ui/input";
@@ -51,7 +48,9 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  LineController,
+  BarController
 );
 
 const Detail = () => {

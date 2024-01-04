@@ -126,10 +126,19 @@ const Detail = () => {
   };
 
   useEffect(() => {
+    const companyView = async () => {
+      try {
+        await companyViewCount(companiesId, token);
+      } catch (error) {
+        console.error("조회수 업데이트 중 오류가 발생했습니다.", error);
+      }
+    };
+
     if (!token || !userId) {
       alert("로그인을 하셔야 회사 정보를 조회할 수 있습니다.");
       navigate("/auth/login");
     }
+    companyView();
   }, [token, userId, navigate]);
 
   if (isCompanyLoading) {
@@ -214,7 +223,7 @@ const Detail = () => {
         </div>
         <div className="border rounded-md p-4 flex flex-col gap-2">
           <div className="text-lg font-bold">소셜</div>
-          <CompanyCommentList comments={comments ?? []} />
+          <CompanyCommentList comments={comments ?? []} token={token} />
           <CompanyCommentForm
             placeholder="댓글을 입력하세요."
             onSubmit={handleCommentSubmit}
@@ -261,7 +270,6 @@ const Detail = () => {
 export default Detail;
 
 const EmployeeGraph = ({ companyNpsEmployeeData }) => {
-  console.log(companyNpsEmployeeData);
   if (!companyNpsEmployeeData) {
     return <></>;
   }
@@ -273,8 +281,6 @@ const EmployeeGraph = ({ companyNpsEmployeeData }) => {
   const monthlyPrices = companyNpsEmployeeData.map(
     (data) => data.monthlyPrice / 0.09 / data.total
   );
-
-  console.log(companyNpsEmployeeData);
 
   const data = {
     labels: months,

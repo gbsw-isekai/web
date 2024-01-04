@@ -2,12 +2,9 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { getCompanys } from "src/lib/company";
 import Header from "src/components/common/Header";
-import CompanyItem from "src/pages/Company/components/item";
-import { Link } from "react-router-dom";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -15,15 +12,9 @@ import {
 } from "../../components/ui/pagination"
 import {
   Command,
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
   CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
 } from "../../components/ui/command"
+import Items from "../../components/company/items";
 
 
 export default function CompanyList() {
@@ -32,13 +23,16 @@ export default function CompanyList() {
   const [error, setError] = useState(false);
   const [maxPage, setMaxPage] = useState(0);
   const [pageId, setPageId] = useState(0);
-  const [searchKey, setSerchKey] = useState("");
+  const [query, setQuery] = useState("");
+
+  const SearchCheck = (e) => {
+    setQuery(e);
+  };
 
   useEffect(() => {
     async function wait() {
       try {
-        console.log(searchKey);
-        const companys = await getCompanys(pageId, searchKey);
+        const companys = await getCompanys(pageId, query);
         setMaxPage(companys.totalPages);
         setCompanys(companys.content);
         setLoad(true);
@@ -49,7 +43,7 @@ export default function CompanyList() {
       }
     }
     wait();
-  }, [pageId, searchKey]);
+  }, [pageId, query]);
 
   if (load) {
     return "조회중";
@@ -57,10 +51,6 @@ export default function CompanyList() {
 
   if (error) {
     return "에런데용?";
-  }
-
-  const SearchCheck = (e) => {
-    setSerchKey(e.target.value);
   }
   
 	return (
@@ -70,33 +60,15 @@ export default function CompanyList() {
       </div>
       <div className="max-w-3xl mx-auto">
         <Command>
-          <CommandInput placeholder="search..." onChange={SearchCheck}/>
+          <CommandInput
+            placeholder="search..." 
+            value={query} 
+            onValueChange={SearchCheck}
+          />
         </Command>
       </div>
       <div className="max-w-3xl mx-auto mt-7">
-        {companys.map(({
-          id,
-          name,
-          postalCode,
-          address,
-          industryCode,
-          industry,
-          registrationNumber,
-          viewCount
-        }) => (
-          <Link to={`/companies/${id}`}>
-            <CompanyItem 
-              id={id} 
-              name={name} 
-              postalCode={postalCode} 
-              address={address} 
-              industryCode={industryCode} 
-              industry={industry} 
-              registrationNumber={registrationNumber} 
-              viewCount={viewCount}
-            />
-          </Link>
-        ))}
+        <Items companys={companys} />
       </div>
       <Pagination>
         <PaginationContent>
@@ -105,9 +77,13 @@ export default function CompanyList() {
               <PaginationItem>
                 <PaginationLink onClick={() => {setPageId(pageId)}}>{pageId + 1}</PaginationLink>
               </PaginationItem>
-              <PaginationItem>
-                <PaginationLink onClick={() => {setPageId(pageId + 1)}}>{pageId + 2}</PaginationLink>
-              </PaginationItem>
+              {
+                pageId !== 1 && (
+                  <PaginationItem>
+                    <PaginationLink onClick={() => {setPageId(pageId + 1)}}>{pageId + 2}</PaginationLink>
+                  </PaginationItem>
+                )
+              }
               { 
                 pageId + 1 < maxPage && (
                   <PaginationItem>

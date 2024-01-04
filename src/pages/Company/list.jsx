@@ -22,7 +22,7 @@ export default function CompanyList() {
   const [query, setQuery] = useState("");
 
   const SearchCheck = (e) => {
-    setQuery(e.target.value);
+    setQuery(e);
   };
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export default function CompanyList() {
           <CommandInput
             placeholder="회사명을 입력해주세요."
             value={query}
-            onChange={SearchCheck}
+            onValueChange={SearchCheck}
           />
         </Command>
       </div>

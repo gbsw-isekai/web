@@ -11,7 +11,6 @@ import { Button } from "src/components/ui/button";
 import useToken from "src/hooks/useToken";
 import { GiHorizonRoad } from "react-icons/gi";
 
-
 export default function Header() {
   const [token] = useToken();
 
@@ -52,7 +51,7 @@ export default function Header() {
           </NavigationMenuList>
         </NavigationMenu>
         <div className="flex-1"></div>
-        <Link to={token ? "/auth/logout" : "/auth/login"} className="self-end">
+        <Link to={token ? "/auth/logout" : "/auth/login"}>
           <Button className="w-24">{token ? "로그아웃" : "로그인"}</Button>
         </Link>
       </div>

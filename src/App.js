@@ -31,7 +31,7 @@ function App() {
           path="/questions/:questionId/answers/:answerId/editor"
           element={<BoardEditor type="4" />}
         />
-         <Route path="/portfolio" element={<Portfolio/>} />
+        <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/questions" element={<Questions />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/logout" element={<Logout />} />

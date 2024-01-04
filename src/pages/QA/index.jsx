@@ -14,7 +14,6 @@ import Comments from "../../components/QA/Comment";
 import { createView, deleteBoard, getBoardById } from "src/lib/question";
 import QADropDown from "src/components/QA/qa-dropdown";
 import { Toaster } from "src/components/ui/toaster";
-import { Heart } from "lucide-react";
 import BoardLike from "src/components/QA/board-like";
 dayjs.extend(relativeTime);
 dayjs.locale("ko");

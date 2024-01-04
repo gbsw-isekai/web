@@ -2,10 +2,10 @@ import axios from "axios";
 
 import Cookies from "js-cookie";
 
-export async function getQuestions() {
+export async function getQuestions(orderType) {
   const { data } = await axios({
     method: "get",
-    url: `${process.env.REACT_APP_SERVER}/boards/questions`,
+    url: `${process.env.REACT_APP_SERVER}/boards/questions?order=${orderType}`,
   });
   return data;
 }

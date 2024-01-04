@@ -41,7 +41,7 @@ export default function CommentForm({
     if (token) {
       setFormPlaceholer("댓글을 입력하세요.");
     }
-  }, [qaId, commentId]);
+  }, [commentId, content, token]);
 
   async function sendCommentDto(e) {
     try {

@@ -15,14 +15,14 @@ import Items from "src/components/company/items";
 
 export default function CompanyList() {
   const [companys, setCompanys] = useState([]);
-  const [load, setLoad] = useState(true);
   const [error, setError] = useState(false);
   const [maxPage, setMaxPage] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
   const [pageId, setPageId] = useState(0);
   const [query, setQuery] = useState("");
 
   const SearchCheck = (e) => {
-    setQuery(e);
+    setQuery(e.target.value);
   };
 
   useEffect(() => {
@@ -30,20 +30,14 @@ export default function CompanyList() {
       try {
         const companys = await getCompanys(pageId, query);
         setMaxPage(companys.totalPages);
+        setTotalCount(companys.totalElements);
         setCompanys(companys.content);
-        setLoad(true);
       } catch {
         setError(true);
-      } finally {
-        setLoad(false);
       }
     }
     wait();
   }, [pageId, query]);
-
-  if (load) {
-    return "조회중";
-  }
 
   if (error) {
     return "에런데용?";
@@ -57,13 +51,16 @@ export default function CompanyList() {
       <div className="max-w-3xl mx-auto">
         <Command>
           <CommandInput
-            placeholder="search..."
+            placeholder="회사명을 입력해주세요."
             value={query}
-            onValueChange={SearchCheck}
+            onChange={SearchCheck}
           />
         </Command>
       </div>
-      <div className="max-w-3xl mx-auto mt-7">
+      <div className="max-w-3xl mx-auto mt-7 px-4">
+        <div className="mb-2">
+          총 개수 : {new Intl.NumberFormat().format(totalCount)}
+        </div>
         <Items companys={companys} />
       </div>
       <Pagination>

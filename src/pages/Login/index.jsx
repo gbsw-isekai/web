@@ -82,7 +82,7 @@ export default function Login() {
           <div className="text-center flex justify-center items-center mt-7">
             <div className="mr-1">계정이 존재하지 않습니까?</div>
             <Link
-              to="/users/join"
+              to="/auth/join"
               className="text-blue-700 font-medium text-base hover:underline"
             >
               회원가입

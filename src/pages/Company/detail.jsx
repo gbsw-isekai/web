@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useToken from "../../hooks/useToken";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  companyViewCount,
-  getCompany,
-  createCompanyComment,
-  createCompanyReview,
-} from "src/lib/company";
+import { createCompanyComment, createCompanyReview } from "src/lib/company";
 import Header from "src/components/common/Header";
 import { Briefcase, MapPin } from "lucide-react";
 import CompanyReview from "src/components/company/review";
@@ -25,8 +20,8 @@ import {
   Tooltip,
   Legend,
   BarElement,
-  LineController,
   BarController,
+  LineController,
 } from "chart.js";
 import { Label } from "src/components/ui/label";
 import { Input } from "src/components/ui/input";
@@ -54,8 +49,8 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  LineController,
-  BarController
+  BarController,
+  LineController
 );
 
 const Detail = () => {
@@ -94,7 +89,7 @@ const Detail = () => {
         { content },
         token
       );
-      if (response.status == 200) {
+      if (response.status === 200) {
         mutateComments();
       } else {
         alert("댓글 등록 실패:" + response.status);
@@ -111,7 +106,7 @@ const Detail = () => {
         reviewData,
         token
       );
-      if (response.status == 200) {
+      if (response.status === 200) {
         mutateCompany();
         setReviewData({
           title: "",
@@ -145,6 +140,18 @@ const Detail = () => {
     return (
       <div className="text-center text-red-500">
         ERROR STATE: [{companyError.toString()}]
+      </div>
+    );
+  }
+
+  if (isCommentsLoading) {
+    return <div className="text-center">조회중...</div>;
+  }
+
+  if (commentsError) {
+    return (
+      <div className="text-center text-red-500">
+        ERROR STATE: [{commentsError.toString()}]
       </div>
     );
   }
@@ -219,7 +226,7 @@ const Detail = () => {
         </div>
         <div className="border rounded-md p-4 flex flex-col gap-2">
           <div className="text-lg font-bold">소셜</div>
-          <CompanyCommentList comments={comments ?? []} />
+          <CompanyCommentList comments={comments ?? []} userId={userId} />
           <CompanyCommentForm
             placeholder="댓글을 입력하세요."
             onSubmit={handleCommentSubmit}

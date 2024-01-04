@@ -72,25 +72,25 @@ export function createCompanyReview(id, data, token) {
   return response;
 }
 
-export function updateCompanyReview(id, data, token) {
-  const response = axios({
-    method: "PUT",
-    url: `${process.env.REACT_APP_SERVER}/companies/reviews/${id}`,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    data,
-  }).catch((err) => {
-    return err;
-  });
+// export function updateCompanyReview(id, data, token) {
+//   const response = axios({
+//     method: "PUT",
+//     url: `${process.env.REACT_APP_SERVER}/companies/reviews/${id}`,
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//     data,
+//   }).catch((err) => {
+//     return err;
+//   });
 
-  return response;
-}
+//   return response;
+// }
 
-export function deleteCompanyReview(id, token) {
+export function deleteCompanyComment(companyId, commentId, token) {
   const response = axios({
     method: "DELETE",
-    url: `${process.env.REACT_APP_SERVER}/companies/reviews/${id}`,
+    url: `${process.env.REACT_APP_SERVER}/companies/${companyId}/comments/${commentId}`,
     headers: {
       Authorization: `Bearer ${token}`,
     },

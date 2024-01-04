@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useToken from "../../hooks/useToken";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  companyViewCount,
-  createCompanyComment,
-  createCompanyReview,
-} from "src/lib/company";
+import { createCompanyComment, createCompanyReview } from "src/lib/company";
 import Header from "src/components/common/Header";
 import { Briefcase, MapPin } from "lucide-react";
 import CompanyReview from "src/components/company/review";
@@ -130,19 +126,10 @@ const Detail = () => {
   };
 
   useEffect(() => {
-    const companyView = async () => {
-      try {
-        await companyViewCount(companiesId, token);
-      } catch (error) {
-        console.error("조회수 업데이트 중 오류가 발생했습니다.", error);
-      }
-    };
-
     if (!token || !userId) {
       alert("로그인을 하셔야 회사 정보를 조회할 수 있습니다.");
       navigate("/auth/login");
     }
-    companyView();
   }, [token, userId, navigate]);
 
   if (isCompanyLoading) {
@@ -286,6 +273,7 @@ const Detail = () => {
 export default Detail;
 
 const EmployeeGraph = ({ companyNpsEmployeeData }) => {
+  console.log(companyNpsEmployeeData);
   if (!companyNpsEmployeeData) {
     return <></>;
   }
@@ -297,6 +285,8 @@ const EmployeeGraph = ({ companyNpsEmployeeData }) => {
   const monthlyPrices = companyNpsEmployeeData.map(
     (data) => data.monthlyPrice / 0.09 / data.total
   );
+
+  console.log(companyNpsEmployeeData);
 
   const data = {
     labels: months,

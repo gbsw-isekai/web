@@ -15,10 +15,9 @@ const BoardEditor = ({ type }) => {
 
   useEffect(() => {
     if (!token || !userId) {
-      alert("로그인 ㄱㄱ");
       navigate("/auth/login");
     }
-  }, [token, userId, navigate]);
+  }, [token, userId]);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");

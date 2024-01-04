@@ -7,6 +7,7 @@ import QuestionItemList from "src/components/Question/itemList";
 import QuestionItemListSkeleton from "src/components/Question/itemListSkeleton";
 import { useSearchParams } from "react-router-dom";
 import QuestionItemCardSkeleton from "src/components/Question/itemCardSkeleton";
+import { Toaster } from "src/components/ui/toaster";
 
 function Questions() {
   const [questions, setQuestions] = useState([]);
@@ -119,6 +120,7 @@ function Questions() {
           }
         )}
       </div>
+      <Toaster />
     </div>
   );
 }

@@ -4,8 +4,7 @@ import React from "react";
 
 export default function CompanyReview({ reviews }) {
   return (
-    <div className="w-full p-4 border rounded-md flex flex-col gap-4">
-      <div className="text-xl">리뷰</div>
+    <div className="flex flex-col gap-4">
       {reviews.map((review) => (
         <ReviewDetail review={review} />
       ))}
@@ -15,7 +14,7 @@ export default function CompanyReview({ reviews }) {
 
 const ReviewDetail = ({ review }) => {
   return (
-    <div className="border rounded-md p-4 my-4 flex flex-col gap-2">
+    <div className="border rounded-md p-4 flex flex-col gap-2">
       <h2 className="text-xl font-bold">{review.title}</h2>
       <div className="text-sm">
         {dayjs(review.createdAt).format("YYYY년 MM월")}

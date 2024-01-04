@@ -5,6 +5,7 @@ import {
   companyViewCount,
   getCompany,
   createCompanyComment,
+  createCompanyReview,
 } from "src/lib/company";
 import Header from "src/components/common/Header";
 import { Briefcase, MapPin } from "lucide-react";
@@ -58,10 +59,21 @@ const Detail = () => {
   const [token, userId] = useToken();
   const { companiesId } = useParams();
 
+  const [reviewData, setReviewData] = useState({
+    title: "",
+    pro: "",
+    con: "",
+    welfareAndSalaryRating: 0,
+    atmosphereRating: 0,
+    workloadRating: 0,
+    transportationRating: 0,
+  });
+
   const {
     data: company,
     isLoading: isCompanyLoading,
     error: companyError,
+    mutate: mutateCompany,
   } = useSWR(`/companies/${companiesId}`, fetcher);
 
   const {
@@ -85,6 +97,32 @@ const Detail = () => {
       }
     } catch (error) {
       alert("댓글 등록중 오류가 발생했습니다.");
+    }
+  };
+
+  const handleReviewSubmit = async () => {
+    try {
+      const response = await createCompanyReview(
+        companiesId,
+        reviewData,
+        token
+      );
+      if (response.status == 200) {
+        mutateCompany();
+        setReviewData({
+          title: "",
+          pro: "",
+          con: "",
+          welfareAndSalaryRating: 0,
+          atmosphereRating: 0,
+          workloadRating: 0,
+          transportationRating: 0,
+        });
+      } else {
+        alert("리뷰 등록 실패:" + response.status);
+      }
+    } catch (error) {
+      alert("리뷰 등록중 오류가 발생했습니다.");
     }
   };
 
@@ -183,27 +221,39 @@ const Detail = () => {
             onSubmit={handleCommentSubmit}
           />
         </div>
-        <CompanyReview reviews={company.reviews} />
-
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="outline">리뷰 추가하기</Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>리뷰 추가하기</AlertDialogTitle>
-              <AlertDialogDescription>
-                <div className="h-80 overflow-y-scroll">
-                  <AddReviewForm onAddReview={(e) => console.log(e)} />
-                </div>
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>취소</AlertDialogCancel>
-              <AlertDialogAction>리뷰 달기</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <div className="w-full p-4 border rounded-md flex flex-col gap-4">
+          <div className="flex">
+            <div className="text-xl">리뷰</div>
+            <div className="flex-1"></div>
+            <div>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="outline">리뷰 추가하기</Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>리뷰 추가하기</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      <div className="h-80 overflow-y-scroll">
+                        <AddReviewForm
+                          data={reviewData}
+                          onDataChange={(e) => setReviewData(e)}
+                        />
+                      </div>
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>취소</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleReviewSubmit}>
+                      리뷰 달기
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
+          </div>
+          <CompanyReview reviews={company.reviews} />
+        </div>
       </div>
     </div>
   );
@@ -228,10 +278,10 @@ const EmployeeGraph = ({ companyNpsEmployeeData }) => {
   console.log(companyNpsEmployeeData);
 
   const data = {
-    Labels: months,
+    labels: months,
     datasets: [
       {
-        Label: "직원 수",
+        label: "직원 수",
         type: "bar",
         fill: false,
         lineTension: 0.1,
@@ -253,7 +303,7 @@ const EmployeeGraph = ({ companyNpsEmployeeData }) => {
         data: totalValues,
       },
       {
-        Label: "월 평균 월급",
+        label: "월 평균 월급",
         type: "line",
         yAxisID: "monthlyPrice",
         backgroundColor: "rgba(255,99,132,0.2)",
@@ -291,8 +341,8 @@ const EmployeeGraph = ({ companyNpsEmployeeData }) => {
   );
 };
 
-const AddReviewForm = ({ onAddReview }) => {
-  const [formData, setFormData] = useState({
+const AddReviewForm = ({
+  data = {
     title: "",
     pro: "",
     con: "",
@@ -300,24 +350,26 @@ const AddReviewForm = ({ onAddReview }) => {
     atmosphereRating: 0,
     workloadRating: 0,
     transportationRating: 0,
-  });
-
+  },
+  onDataChange,
+}) => {
+  const formData = data;
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
+    onDataChange({
       ...formData,
       [name]: value,
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onAddReview(formData);
-    // You can add additional logic here, like clearing the form or closing a modal
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   onAddReview(formData);
+  //   // You can add additional logic here, like clearing the form or closing a modal
+  // };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <div className="mb-4">
         <Label htmlFor="title" className="block font-bold mb-2">
           제목

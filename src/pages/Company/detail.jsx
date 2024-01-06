@@ -238,7 +238,10 @@ const Detail = () => {
         </div>
         <div className="border rounded-md p-4 flex flex-col gap-2">
           <div className="text-lg font-bold">소셜</div>
-          <CompanyCommentList comments={comments ?? []} userId={userId} />
+          <CompanyCommentList
+            comments={comments ?? []}
+            companyId={company.id}
+          />
           <CompanyCommentForm
             placeholder="댓글을 입력하세요."
             onSubmit={handleCommentSubmit}

@@ -1,6 +1,6 @@
 import useToken from "src/hooks/useToken";
 import { Button } from "../ui/button";
-import { deleteCompanyComment } from "src/lib/company";
+import { deleteCompanyComment, updateCompanyComment } from "src/lib/company";
 import { useEffect, useRef, useState } from "react";
 import {
   DropdownMenu,
@@ -9,16 +9,48 @@ import {
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
+import { Textarea } from "../ui/textarea";
 
 export default function CompanyCommentList({ comments, companyId }) {
   const [token, userId] = useToken();
   const [update, setUpdate] = useState(false);
+  const [updateCommnet, setUpdateCommment] = useState("");
   const [commentIdx, setCommentIdx] = useState();
   const scrollDivRef = useRef(null);
+  const textareaRef = useRef(null);
 
-  const updateComment = (commentId) => {
+  const updateCommentSet = (commentId, content) => {
     setUpdate(true);
     setCommentIdx(commentId);
+    setUpdateCommment(content);
+  };
+
+  const updateValueChange = (e) => {
+    setUpdateCommment(e.target.value);
+  };
+
+  useEffect(() => {
+    if (update && commentIdx !== undefined) {
+      textareaRef.current.focus();
+      const scrollOffset =
+        textareaRef.current.offsetTop - scrollDivRef.current.offsetTop;
+      scrollDivRef.current.scrollTop += scrollOffset;
+    }
+  }, [update, commentIdx]);
+
+  const updateComment = async (commentId, content) => {
+    try {
+      await updateCompanyComment(companyId, commentId, token, content);
+      alert("댓글이 정상적으로 수정 되었습니다.");
+      setUpdate(false);
+      setCommentIdx("");
+      setUpdateCommment("");
+    } catch (error) {
+      setUpdate(false);
+      setCommentIdx("");
+      setUpdateCommment("");
+      console.error("댓글 수정 실패:", error);
+    }
   };
 
   const deleteComment = async (commentId) => {
@@ -28,6 +60,12 @@ export default function CompanyCommentList({ comments, companyId }) {
     } catch (error) {
       console.error("댓글 삭제 실패:", error);
     }
+  };
+
+  const updateRedirect = () => {
+    setUpdate(false);
+    setCommentIdx("");
+    setUpdateCommment("");
   };
 
   useEffect(() => {
@@ -48,11 +86,30 @@ export default function CompanyCommentList({ comments, companyId }) {
                 {comment.createdAt.slice(0, 10)}
               </span>
             </div>
-            <div
-              className="border rounded-md pl-3 pr-3 pt-2 pb-2 text-sm"
-              //여기
-            >
-              <input>{comment.content}</input>
+            <div className=" rounded-md text-sm">
+              <Textarea
+                className="w-full h-full"
+                ref={textareaRef}
+                value={updateCommnet}
+                onChange={(e) => {
+                  updateValueChange(e);
+                }}
+              ></Textarea>
+            </div>
+            <div className="flex gap-2">
+              <div>
+                <Button variant="destructive" onClick={updateRedirect}>
+                  취소
+                </Button>
+              </div>
+              <div>
+                <Button
+                  variant="outline"
+                  onClick={() => updateComment(commentIdx, updateCommnet)}
+                >
+                  수정
+                </Button>
+              </div>
             </div>
           </div>
         ) : (
@@ -75,7 +132,9 @@ export default function CompanyCommentList({ comments, companyId }) {
                         <Button
                           className="w-f self-center"
                           variant="ghost"
-                          onClick={() => updateComment(comment.id)}
+                          onClick={() =>
+                            updateCommentSet(comment.id, comment.content)
+                          }
                         >
                           수정하기
                         </Button>
@@ -98,16 +157,16 @@ export default function CompanyCommentList({ comments, companyId }) {
               )}
             </div>
             <div
-              className="border rounded-md pl-3 pr-3 pt-2 pb-2 text-sm"
+              className="border rounded-md pl-3 pr-3 pt-2 pb-2 text-sm max-w-xl"
               style={{
                 width: `${
-                  comment.content.length > 49
-                    ? (comment.content.length / 49) * 150
-                    : comment.content.length * 20
+                  comment.content.length > 56 && comment.content.length > 5
+                    ? comment.content.length * 30
+                    : comment.content.length * 30
                 }px`,
                 height: `${
-                  comment.content.length > 49
-                    ? (comment.content.length / 49) * 30
+                  comment.content.length > 56
+                    ? (comment.content.length / 56) * 40
                     : 40
                 }px`,
               }}

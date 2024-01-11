@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { Textarea } from "src/components/ui/textarea";
 import { Button } from "src/components/ui/button";
-import { useNavigate } from "react-router-dom";
 
 export default function CompanyCommentForm({ placeholder, onSubmit }) {
   const [content, setContent] = useState("");
-
-  const navigate = useNavigate();
 
   return (
     <div className="w-full">

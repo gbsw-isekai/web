@@ -13,7 +13,6 @@ import CompanyCommentForm from "src/components/company/Form/CompanyCommentForm";
 import useSWR from "swr";
 import { fetcher } from "src/lib/fetcher";
 import CompanyCommentList from "src/components/company/CompanyCommentList";
-import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -27,9 +26,6 @@ import {
   BarController,
   LineController,
 } from "chart.js";
-import { Label } from "src/components/ui/label";
-import { Input } from "src/components/ui/input";
-import { Textarea } from "src/components/ui/textarea";
 import { Button } from "src/components/ui/button";
 
 import {
@@ -43,6 +39,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "src/components/ui/alert-dialog";
+import EmployeeGraph from "../../components/company/emploteeGraph";
+import AddReviewForm from "../../components/company/Form/addReviewForm";
 
 ChartJS.register(
   CategoryScale,
@@ -88,6 +86,10 @@ const Detail = () => {
 
   const handleCommentSubmit = async (content) => {
     try {
+      if (content === "") {
+        alert("댓글을 입력해주세요");
+        return false;
+      }
       const response = await createCompanyComment(
         companiesId,
         { content },
@@ -236,6 +238,7 @@ const Detail = () => {
             companyNpsEmployeeData={company.companyNpsEmployeeData}
           />
         </div>
+        {/* 소셜 */}
         <div className="border rounded-md p-4 flex flex-col gap-2">
           <div className="text-lg font-bold">소셜</div>
           <CompanyCommentList
@@ -247,6 +250,7 @@ const Detail = () => {
             onSubmit={handleCommentSubmit}
           />
         </div>
+        {/* 리뷰 */}
         <div className="w-full p-4 border rounded-md flex flex-col gap-4">
           <div className="flex">
             <div className="text-xl">리뷰</div>
@@ -286,221 +290,3 @@ const Detail = () => {
 };
 
 export default Detail;
-
-const EmployeeGraph = ({ companyNpsEmployeeData }) => {
-  console.log(companyNpsEmployeeData);
-  if (!companyNpsEmployeeData) {
-    return <></>;
-  }
-
-  const months = companyNpsEmployeeData.map(
-    (data) => `${data.year}-${data.month}`
-  );
-  const totalValues = companyNpsEmployeeData.map((data) => data.total);
-  const monthlyPrices = companyNpsEmployeeData.map(
-    (data) => data.monthlyPrice / 0.09 / data.total
-  );
-
-  console.log(companyNpsEmployeeData);
-
-  const data = {
-    labels: months,
-    datasets: [
-      {
-        label: "직원 수",
-        type: "bar",
-        fill: false,
-        lineTension: 0.1,
-        backgroundColor: "rgba(75,192,192,0.4)",
-        borderColor: "rgba(75,192,192,1)",
-        borderCapStyle: "butt",
-        borderDash: [],
-        borderDashOffset: 0.0,
-        borderJoinStyle: "miter",
-        pointBorderColor: "rgba(75,192,192,1)",
-        pointBackgroundColor: "#fff",
-        pointBorderWidth: 1,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: "rgba(75,192,192,1)",
-        pointHoverBorderColor: "rgba(220,220,220,1)",
-        pointHoverBorderWidth: 2,
-        pointRadius: 1,
-        pointHitRadius: 10,
-        data: totalValues,
-      },
-      {
-        label: "월 평균 월급",
-        type: "line",
-        yAxisID: "monthlyPrice",
-        backgroundColor: "rgba(255,99,132,0.2)",
-        borderColor: "rgba(255,99,132,1)",
-        borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,99,132,0.4)",
-        hoverBorderColor: "rgba(255,99,132,1)",
-        data: monthlyPrices,
-      },
-    ],
-  };
-
-  const options = {
-    scales: {
-      y: {
-        title: {
-          display: true,
-          text: "직원 수",
-        },
-      },
-      monthlyPrice: {
-        position: "right",
-        title: {
-          display: true,
-          text: "월 평균 가격",
-        },
-      },
-    },
-  };
-
-  return (
-    <div>
-      <Line data={data} options={options} />
-    </div>
-  );
-};
-
-const AddReviewForm = ({
-  data = {
-    title: "",
-    pro: "",
-    con: "",
-    welfareAndSalaryRating: 0,
-    atmosphereRating: 0,
-    workloadRating: 0,
-    transportationRating: 0,
-  },
-  onDataChange,
-}) => {
-  const formData = data;
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    onDataChange({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   onAddReview(formData);
-  //   // You can add additional logic here, like clearing the form or closing a modal
-  // };
-
-  return (
-    <form>
-      <div className="mb-4">
-        <Label htmlFor="title" className="block font-bold mb-2">
-          제목
-        </Label>
-        <Input
-          type="text"
-          id="title"
-          name="title"
-          value={formData.title}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <Label htmlFor="pro" className="block font-bold mb-2">
-          장점
-        </Label>
-        <Textarea
-          id="pro"
-          name="pro"
-          value={formData.pro}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <Label htmlFor="con" className="block font-bold mb-2">
-          단점
-        </Label>
-        <Textarea
-          id="con"
-          name="con"
-          value={formData.con}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <Label
-          htmlFor="welfareAndSalaryRating"
-          className="block font-bold mb-2"
-        >
-          복지&급여
-        </Label>
-        <Input
-          type="number"
-          id="welfareAndSalaryRating"
-          name="welfareAndSalaryRating"
-          value={formData.welfareAndSalaryRating}
-          onChange={handleInputChange}
-          min="0"
-          max="5"
-          step="0.1"
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <Label htmlFor="atmosphereRating" className="block font-bold mb-2">
-          분위기
-        </Label>
-        <Input
-          type="number"
-          id="atmosphereRating"
-          name="atmosphereRating"
-          value={formData.atmosphereRating}
-          onChange={handleInputChange}
-          min="0"
-          max="5"
-          step="0.1"
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <Label htmlFor="workloadRating" className="block font-bold mb-2">
-          업무 정도/강도
-        </Label>
-        <Input
-          type="number"
-          id="workloadRating"
-          name="workloadRating"
-          value={formData.workloadRating}
-          onChange={handleInputChange}
-          min="0"
-          max="5"
-          step="0.1"
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <Label htmlFor="transportationRating" className="block font-bold mb-2">
-          교통
-        </Label>
-        <Input
-          type="number"
-          id="transportationRating"
-          name="transportationRating"
-          value={formData.transportationRating}
-          onChange={handleInputChange}
-          min="0"
-          max="5"
-          step="0.1"
-          required
-        />
-      </div>
-      {/* <Button type="submit">리뷰 달기</Button> */}
-    </form>
-  );
-};

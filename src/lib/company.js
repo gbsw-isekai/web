@@ -87,6 +87,21 @@ export function createCompanyReview(id, data, token) {
 //   return response;
 // }
 
+export function updateCompanyComment(companyId, commentId, token, content) {
+  const response = axios({
+    method: "PUT",
+    url: `${process.env.REACT_APP_SERVER}/companies/${companyId}/comments/${commentId}`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    content,
+  }).catch((err) => {
+    return err;
+  });
+
+  return response;
+}
+
 export function deleteCompanyComment(companyId, commentId, token) {
   const response = axios({
     method: "DELETE",
